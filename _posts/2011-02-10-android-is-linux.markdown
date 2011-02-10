@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Android = Linux-on-anything-with-a-screen"
+date: 2011-02-10 15:24:05
+---
+
+Here we are in 2011. Obviously, the year of the Linux desktop, right? You'd hope so. It's not like there hasn't been plenty of time to make it happen. [Red Hat](http://redhat.com), [Canonical](http://canonical.com), [Novell](http://novell.com), and many other companies and individuals have been working hard on it for quite a while. And yet, very few inroads have been made. Sure, [Dell](http://dell.com/ubuntu) has been selling Ubuntu on some netbooks with limited success, but that is hardly a victory.
+
+In 2007, [Google](http://google.com) unveiled the Linux-based Android smartphone platform. The first phone wasn't released until a year later in 2008, along with the Android source code. Now, in Q4 2010, Android is the [best-selling smartphone operating system in the world](http://uk.reuters.com/article/2011/01/31/oukin-uk-google-nokia-idUKTRE70U1YT20110131), surpassing Symbian, BlackBerry, Windows Mobile, and yes even iOS. In 2 years, it went from zero to total domination, with no signs of slowing down. Not everyone agrees that Android is the best smartphone OS (*ahem*, [Gruber](http://daringfireball.net)), but it's impossible to say that it isn't a success. And it uses Linux. In fact, I believe you could say that Android is the most successful and widely deployed Linux product ever. So why haven't we standardized on it for other non-smartphone uses? It would require some work, but at least there is *some* chance it could work out.
+
+Initially I was going to try to call out all of the infuriating things about developing on desktop Linux, but I got tired. All of that has been said elsewhere by people smarter than me. The main reason I'm really behind Android is that it dramatically reduces the amount of fragmentation. It's just not possible for a hardware vendor like AMD or NVIDIA to support the multitude of distros out there. If you told those guys they only had to support a couple versions of Android, they would be able to deliver much higher quality of support.
+
+The Eclipse IDE, Dalvik VM, and Android application framework are all great assets and deliver a far superior development experience over standard Linux. You get that for free. If Java isn't your bag, though, you can always use the [Native Development Kit](http://developer.android.com/sdk/ndk/index.html) to write in C, C++, [C#](http://monodroid.net/), or whatever you want. I would love to see Clutter on Android, for instance. And Node.js/gjs. Or any number of other great projects.
+
+It's already possible to run Android on a PC via the [Android-x86](http://www.android-x86.org/) project. They've added basic mouse support, as well as hardware accelerated OpenGL ES2 via Mesa (on Intel hardware). I have a Cr-48 running it here, and it works amazingly well. Even wifi works.
