@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Tangerine + Muine"
+---
+
+       		
+<p>Hot on the heels of the last release comes <a href="http://www.snorp.net/log/tangerine">Tangerine</a> 0.2.8, with the only major change being a new plugin for <a href="http://muine-player.org/wiki/Main_Page">Muine</a>.</p>
+
+
+   		

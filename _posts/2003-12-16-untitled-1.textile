@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Untitled 1"
+---
+
+       		
+<p>I&#8217;ve been hacking on the wireless applet a bit the last couple days.  This is the result:<br />
+<div align="center"><img src="http://www.snorp.net/files/screenshots/wireless-applet.png"/></div></p>
+<p>Right now it just lists the access points and the quality.  It would be sweet if you could switch to another essid from there,&nbsp;etc.</p>
+<p>Paolo has been working on recent-files stuff.  I feel guilty for not helping him yet, so maybe I&#8217;ll work on that&nbsp;tonight.</p>
+
+
+   		

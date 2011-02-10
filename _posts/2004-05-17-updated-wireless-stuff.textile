@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Updated Wireless Stuff"
+---
+
+       		
+<p>I took some time today to update my wireless patches to latest <span class="caps">GNOME</span> <span class="caps">CVS</span>, and the latest development release of wireless-tools.  If you would like to try it, here are&nbsp;instructions:</p>
+<ol>
+<li>Get the latest <a href="http://www.snorp.net/files/patches/gnome_applets_jwillcox_wireless_switching_v2.tar.gz">wireless-applet</a> and <a href="http://www.snorp.net/files/patches/iwlib_jwillcox_scanning_27pre22.diff">wireless-tools</a>&nbsp;patches</li>
+<li>Get the latest <a href="http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.27.pre22.tar.gz">wireless-tools</a> (version 27pre22) and apply iwlib_jwillcox_scanning_27pre22.diff to it, install it,&nbsp;etc.</li>
+<li>Unpack the wireless-applets patch tarball thingy in the root of the gnome-applets tree.  Apply the gnome_applets_jwillcox_wireless_v4.diff patch.  Run autogen, make,&nbsp;etc.</li>
+<li>Enjoy.</li></ol>
+<p>This still only works on Red Hat systems due to the usage of consolehelper.  You can fix that by putting appropriate root-getting-and-essid-setting-and-renew-dhcp-lease bits for your distro in the wireless-applet-helper&nbsp;script.</p>
+<p><b>Update:</b></p>
+<p><a href="http://www.snorp.net/files/screenshots/wireless-applet.png">Screenshot</a> for those of you who haven&#8217;t seen&nbsp;it.</p>
+
+
+   		

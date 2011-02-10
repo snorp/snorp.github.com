@@ -1,0 +1,11 @@
+---
+layout: post
+title: "give credit where credit is due"
+---
+
+       		
+<p>I&#8217;ve been listening to music for like 12 hours straight now using the latest Rhythmbox from <span class="caps">CVS</span>.  I&#8217;m happy to say that it hasn&#8217;t crashed even <span class="caps">ONCE</span> during this time.  The UI feels snappy, and everything Just Works (with the exception of it not playing a couple of my mp3s, but whatever).  <span class="caps">MAD</span> <span class="caps">PROPS</span> TO <span class="caps">WALTERS</span> <span class="caps">AND</span> <span class="caps">THE</span> <span class="caps">REST</span> OF <span class="caps">THE</span> <span class="caps">RHYTHMBOX</span> <span class="caps">TEAM</span>!</p>
+<p>So, what I&#8217;m trying to say is, if you gave up on Rhythmbox back in the day, give it another chance.  Oh, here&#8217;s a <a href="http://www.snorp.net/files/screenshots/rhythmbox.png">screenshot</a>.</p>
+
+
+   		

@@ -1,0 +1,106 @@
+? banshee_ipod_cover_art_v1.diff
+? banshee_ipod_cover_art_v2.diff
+? banshee_source_flags_v1.diff
+? banshee_unclog_main_loop_v1.diff
+? dap_changes.diff
+? foobar
+? data/images/ass
+? data/images/foo
+? src/Banshee.Dap/Ipod/IpodDap.cs.new
+? src/Banshee.Dap/Ipod/foo
+? src/Banshee.MediaEngine/Vlc/Makefile
+? src/Banshee.MediaEngine/Vlc/Makefile.in
+? src/Banshee.MediaEngine/Vlc/vlc-player.dll.config
+? src/Banshee.Plugins/FileSystemMonitor/FileSystemMonitor.dll
+? src/Banshee.Plugins/FileSystemMonitor/FileSystemMonitor.dll.config
+? src/Banshee.Plugins/FileSystemMonitor/FileSystemMonitor.dll.mdb
+? src/Banshee.Plugins/FileSystemMonitor/Makefile
+? src/Banshee.Plugins/FileSystemMonitor/Makefile.in
+? src/Banshee.Plugins/FileSystemMonitor/filesystemmonitor.schemas
+Index: src/Banshee.Base/Dap/Dap.cs
+===================================================================
+RCS file: /cvs/gnome/banshee/src/Banshee.Base/Dap/Dap.cs,v
+retrieving revision 1.18
+diff -u -r1.18 Dap.cs
+--- src/Banshee.Base/Dap/Dap.cs	2 Jul 2006 19:12:37 -0000	1.18
++++ src/Banshee.Base/Dap/Dap.cs	8 Jul 2006 00:29:20 -0000
+@@ -348,9 +348,7 @@
+         
+         protected void UpdateSaveProgress(string header, string message, double progress)
+         {
+-            save_report_event.Header = header;
+-            save_report_event.Message = message;
+-            save_report_event.Progress = progress;
++            save_report_event.Update (null, message, header, progress);
+         }
+         
+         protected void FinishSave()
+Index: src/Banshee.Dap/Ipod/IpodDap.cs
+===================================================================
+RCS file: /cvs/gnome/banshee/src/Banshee.Dap/Ipod/IpodDap.cs,v
+retrieving revision 1.15
+diff -u -r1.15 IpodDap.cs
+--- src/Banshee.Dap/Ipod/IpodDap.cs	6 Jul 2006 19:32:35 -0000	1.15
++++ src/Banshee.Dap/Ipod/IpodDap.cs	8 Jul 2006 00:29:20 -0000
+@@ -185,7 +185,7 @@
+                 string message = args.CurrentTrack == null 
+                     ? Catalog.GetString("Flushing to Disk (may take time)")
+                     : args.CurrentTrack.Artist + " - " + args.CurrentTrack.Title;
+-                    
++
+                 UpdateSaveProgress(Catalog.GetString("Synchronizing iPod"), message, progress);
+             };
+ 
+Index: src/Banshee.Widgets/ActiveUserEvent.cs
+===================================================================
+RCS file: /cvs/gnome/banshee/src/Banshee.Widgets/ActiveUserEvent.cs,v
+retrieving revision 1.8
+diff -u -r1.8 ActiveUserEvent.cs
+--- src/Banshee.Widgets/ActiveUserEvent.cs	12 Jun 2006 21:28:13 -0000	1.8
++++ src/Banshee.Widgets/ActiveUserEvent.cs	8 Jul 2006 00:29:20 -0000
+@@ -193,7 +193,45 @@
+                 string tip = name + ": " + message;
+                 tips.SetTip(message_label, tip, tip);
+                 tips.SetTip(icon, tip, tip);
++
++                progress_bar.Fraction = progress;
++                progress_bar.Text = String.Format("{0}%", (int)(progress * 100.0));
+             });
++        }
++
++        public void Update (string name, string message, string header, double progress) {
++            bool updateNeeded = false;
++            
++            if (name != null && name != this.name) {
++                this.name = name;
++                updateNeeded = true;
++            }
++
++            if (message != null && message != this.message) {
++                this.message = message;
++                updateNeeded = true;
++            }
++
++            if (header != null && header != this.header) {
++                this.header = header;
++                updateNeeded = true;
++            }
++
++            if (progress != this.progress && (progress < 0.0 || Math.Abs (progress - this.progress) >= 0.01)) {
++                
++                if(progress <= 0.0 && !disposed && timeout_id == 0) {
++                    timeout_id = GLib.Timeout.Add(100, OnTimeout);
++                } else if(timeout_id > 0) {
++                    GLib.Source.Remove(timeout_id);
++                    timeout_id = 0;
++                }
++                
++                this.progress = progress;
++                updateNeeded = true;
++            }
++
++            if (updateNeeded)
++                UpdateLabel ();
+         }
+ 
+         public string Name {

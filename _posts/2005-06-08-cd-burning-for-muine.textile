@@ -1,0 +1,10 @@
+---
+layout: post
+title: "CD burning for Muine"
+---
+
+       		
+<p>I fixed up <a href="http://www.gnome.org/~fherrera/blog">fer</a>&#8216;s muine-burn plugin recently.  It now works with the latest muine, and recent libnautilus-burn.  Surprisingly little was needed to get it into working condition again.  <span class="caps">AFAIK</span>, the plugin wasn&#8217;t checked into version control anywhere, so I committed the changes into my baz <a href="http://www.snorp.net/bazaar">archive</a>.  I also put up a tarball <a href="http://www.snorp.net/files/packages/muine-burn-0.0.2.tar.gz">here</a>.</p>
+
+
+   		

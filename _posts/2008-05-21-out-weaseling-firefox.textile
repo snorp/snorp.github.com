@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Out-weaseling Firefox"
+---
+
+       		
+<p>There has been a lot of buzz lately about the Firefox 3 <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=421482">fsync issue</a>.  The work I&#8217;m doing these days has me doing a lot of long-running disk-bound activies, so this one hurts me pretty bad.  Firefox would stop responding for 30-40s at a time while my job was running in the background, which I think is pretty unacceptable.  I have worked around it in the (hopefully) short-term with a LD_PRELOAD hack.  I&#8217;ve posted it <a href="http://www.snorp.net/files/ff3-sucks.tar.bz2">here</a> in case anyone else finds it useful.  Just unpack, cd to the directory, and &#8216;make &amp;&amp; make install&#8217; (not as root).  A word of warning, though: if it breaks you get to keep both pieces.  Kudos to <a href="http://www.abock.org/">Aaron</a> for adding the &#8216;make install&#8217; bits to the Makefile&nbsp;:)</p>
+
+
+   		

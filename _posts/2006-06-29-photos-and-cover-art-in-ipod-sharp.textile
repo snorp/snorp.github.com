@@ -1,0 +1,13 @@
+---
+layout: post
+title: "photos and cover art in ipod-sharp"
+---
+
+       		
+<p>I&#8217;ve been working on <a href="http://www.snorp.net/log/ipod-sharp">ipod-sharp</a> recently to add cover art and photo support.  It&#8217;s nearly complete now, and I can add and remove art and photos on my video iPod.  Another person has tried it successfully on his Nano, so all that&#8217;s left to test is a regular iPod Photo.  There might be some issues to work out yet with the camera adaptor too.  A big thanks to <a href="http://primates.ximian.com/~lewing/blog/">Larry</a> who did the initial work and provided the scary image conversion code&nbsp;:)</p>
+<p>I&#8217;ve added cover art support to <a href="http://www.snorp.net/log/dopi">Dopi</a> in svn.  It uses Cover.jpg (or cover.jpg or folder.png, etc) if one is present next to the files when you add them.  I suppose one of these days I should add a crappy &#8220;track properties&#8221; window so you can view/change the cover art&nbsp;there.</p>
+<p>I&#8217;ve also created a <a href="http://www.snorp.net/files/banshee_ipod_cover_art_v2.diff">patch</a> for <a href="http://www.banshee-project.org">Banshee</a> to make it use the new ipod-sharp and sync cover art.  To try it you&#8217;ll need ipod-sharp and libipoddevice from&nbsp;svn/cvs.</p>
+<p>Oh I also converted ipod-sharp to use gmcs.  Hooray for&nbsp;generics.</p>
+
+
+   		

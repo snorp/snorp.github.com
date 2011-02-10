@@ -1,0 +1,12 @@
+---
+layout: post
+title: "ipod-sharp"
+---
+
+       		
+<p>I just committed ipod-sharp to <span class="caps">CVS</span>, a library for manipulating iTunesDBs.  It&#8217;s written entirely in C#.  Currently you can use it to add/remove songs, and manipulate any existing playlists.  There is also a cheesy little tool that lists the songs/playlists in a given&nbsp;iTunesDB.</p>
+<p>I mostly wrote it to add iPod syncing to Muine.  I have a patch which does this, but it needs a lot of work still.  I haven&#8217;t yet totally worked out how the <span class="caps">HAL</span> integration will happen, for instance.  For starters, I patched gnome-volume-manager to mount the appropriate partition when it sees an iPod and invoke &#8216;muine &#8212;ipod-sync <mount_point>&#8217;.  But that doesn&#8217;t cover unmounting.  Also apparently you need to &#8216;eject&#8217; the device for the iPod to put up the happy &#8220;ok to disconnect&#8221;&nbsp;screen.</p>
+<p>You can get the code from the &#8216;ipod-sharp&#8217; module in gnome <span class="caps">CVS</span>, or <a href="http://www.snorp.net/files/packages/ipod-sharp-0.0.1.tar.gz">here</a>.  Hopefully I&#8217;ll get the Muine patch in a useable state soon.</mount_point></p>
+
+
+   		

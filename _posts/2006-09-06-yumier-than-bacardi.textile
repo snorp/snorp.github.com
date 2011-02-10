@@ -1,0 +1,18 @@
+---
+layout: post
+title: "YUMier Than Bacardi"
+---
+
+       		
+<p>When I was in Boston last week, my cohorts and I whipped up something wonderful: a rug interface for yum.  We call it &#8216;rum&#8217;, and it has nearly all the features of the original (used with rcd) rug.  &#8220;zOMG!!! <span class="caps">WHY</span>?!!11&#8221;, you ask?  Well, after using and working on rug/rcd/zmd for the past 3 or 4 years, we simply can&#8217;t use anything else.  It&#8217;s a sickness.  So what&#8217;s in it for you, the average yum user?<br />
+<ul><br />
+<li>The world-renowned, award-winning, &#8216;search&#8217;&nbsp;command</li><br />
+<li><span class="dquo">&#8220;</span>tilde&#8221; support (rum in foo bar ~baz), which allows you to add and remove packages at the same&nbsp;time</li><br />
+<li>Easily add/remove/enable/disable repositories.  Never edit a config file&nbsp;again!</li><br />
+<li>Persistent package locks (known as &#8216;excludes&#8217; in the yum&nbsp;world)</li><br />
+<li>New commands are easily added.  Just drop a python file in the appropriate place, and it is automatically added to the rum&nbsp;interface.</li></p>
+</ul>
+<p>You can download RPMs for <a href="http://www.snorp.net/files/rum/fc5-i386">FC5-i386</a>, <a href="http://www.snorp.net/files/rum/fc6-i386">FC6-i386</a>, and <a href="http://www.snorp.net/files/rum/suse-i586">SuSE 10.x-i586</a>.  For you adventurous build-from-source types, a tarball is <a href="http://www.snorp.net/files/rum/rum-1.0.0.tar.gz">here</a>.&nbsp;Enjoy!</p>
+
+
+   		

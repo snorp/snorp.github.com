@@ -1,0 +1,965 @@
+Index: configure.in
+===================================================================
+RCS file: /cvs/gnome/gnome-applets/configure.in,v
+retrieving revision 1.306
+diff -u -r1.306 configure.in
+--- configure.in	27 Apr 2004 13:20:08 -0000	1.306
++++ configure.in	17 May 2004 19:24:24 -0000
+@@ -564,6 +564,7 @@
+ battstat/docs/zh_TW/Makefile
+ man/Makefile
+ wireless/Makefile
++wireless/wireless-applet-helper.app
+ wireless/docs/Makefile
+ wireless/docs/C/Makefile
+ wireless/docs/de/Makefile
+Index: wireless/Makefile.am
+===================================================================
+RCS file: /cvs/gnome/gnome-applets/wireless/Makefile.am,v
+retrieving revision 1.7
+diff -u -r1.7 Makefile.am
+--- wireless/Makefile.am	8 Feb 2004 10:16:20 -0000	1.7
++++ wireless/Makefile.am	17 May 2004 19:24:24 -0000
+@@ -14,16 +14,20 @@
+ 	-DGNOME_DISABLE_DEPRECATED	\
+ 	$(NULL)
+ 
++sbin_SCRIPTS = wireless-applet-helper
++
+ libexec_PROGRAMS = wireless-applet
+ 
+ wireless_applet_SOURCES = 	\
+ 	wireless-applet.c	\
++	ephy-cell-renderer-progress.c	\
+ 	$(NULL)
+ 
+ wireless_applet_LDADD = 	\
+ 	$(top_builddir)/screen-exec/libscreen-exec.la   \
+ 	$(GNOME_APPLETS_LIBS) 	\
+ 	$(LIBGLADE_LIBS)	\
++	-liw			\
+ 	$(NULL)
+ 
+ gladedir = $(datadir)/wireless-applet/
+@@ -48,15 +52,28 @@
+ 	signal-61-80.png	\
+ 	signal-81-100.png	\
+ 	wireless-applet.png	\
++	connect-0.png		\
++	connect-1.png		\
++	connect-2.png		\
++	connect-3.png		\
+ 	$(NULL)
+ 
+ CLEANFILES = $(server_in_files) $(server_DATA) *.bak *.gladep
+ 
++install-data-local:
++	$(INSTALL) -D wireless-applet-helper.app $(sysconfdir)/security/console.apps/wireless-applet-helper
++	$(INSTALL) -D wireless-applet-helper.pam $(sysconfdir)/pam.d/wireless-applet-helper
++
++install-exec-hook:
++	ln -sf `which consolehelper` $(prefix)/bin/wireless-applet-helper
++
+ EXTRA_DIST = 				\
+ 	$(server_in_in_files)		\
+ 	$(glade_DATA)			\
+ 	$(pixmap_DATA)			\
+ 	$(ui_DATA)			\
++	wireless-applet-helper.app	\
++	wireless-applet-helper.pam	\
+ 	$(NULL)
+ 
+ @INTLTOOL_SERVER_RULE@
+Index: wireless/wireless-applet.c
+===================================================================
+RCS file: /cvs/gnome/gnome-applets/wireless/wireless-applet.c,v
+retrieving revision 1.34
+diff -u -r1.34 wireless-applet.c
+--- wireless/wireless-applet.c	13 Apr 2004 10:39:46 -0000	1.34
++++ wireless/wireless-applet.c	17 May 2004 19:24:24 -0000
+@@ -1,3 +1,4 @@
++
+ /* 
+  * Copyright (C) 2001, 2002 Free Software Foundation
+  *
+@@ -24,6 +25,7 @@
+ #include <string.h>
+ #include <stdlib.h>
+ #include <sys/types.h>
++#include <sys/wait.h>
+ #include <ctype.h>
+ #include <fcntl.h>
+ #include <errno.h>
+@@ -36,6 +38,8 @@
+ #include <glade/glade.h>
+ 
+ #include <egg-screen-help.h>
++#include <iwlib.h>
++#include "ephy-cell-renderer-progress.h"
+ 
+ #define CFG_DEVICE "eth0"
+ #define CFG_UPDATE_INTERVAL 2
+@@ -47,6 +51,10 @@
+ 	PIX_SIGNAL_2,
+ 	PIX_SIGNAL_3,
+ 	PIX_SIGNAL_4,
++	PIX_CONNECT_0,
++	PIX_CONNECT_1,
++	PIX_CONNECT_2,
++	PIX_CONNECT_3,
+ 	PIX_NUMBER,
+ } PixmapState;
+ 
+@@ -57,6 +65,10 @@
+ 	"signal-41-60.png",
+ 	"signal-61-80.png",
+ 	"signal-81-100.png",
++	"connect-0.png",
++	"connect-1.png",
++	"connect-2.png",
++	"connect-3.png",
+ };
+ 
+ typedef struct {
+@@ -74,12 +86,22 @@
+ 
+ 	GtkWidget *pct_label;
+ 	GtkWidget *pixmap;
++	GtkWidget *button;
+ 	GtkWidget *box;
+ 	GtkWidget *about_dialog;
+ 	guint timeout_handler_id;
+-	FILE *file;
+ 	GtkTooltips *tips;
+ 	GtkWidget *prefs;
++	GtkWidget *ap_popup;
++
++	GtkListStore *ap_store;
++	GtkWidget *ap_view;
++	
++	int skfd;
++	wireless_config cfg;
++	GList *scan_list;
++
++	int helper_pid;
+ } WirelessApplet;
+ 
+ static GladeXML *xml = NULL;
+@@ -126,6 +148,33 @@
+ 	return type;
+ }
+ 
++static GType
++wireless_ap_get_type (void)
++{
++	static GType boxed_type = 0;
++
++	if (!boxed_type) {
++		boxed_type = g_boxed_type_register_static ("wireless_ap",
++							   (GBoxedCopyFunc)iw_wireless_ap_copy,
++							   (GBoxedFreeFunc)iw_wireless_ap_free);
++	}
++
++	return boxed_type;
++}
++
++
++static int
++wireless_applet_get_percent (double qual, int level)
++{
++	int percent;
++
++	percent = (int)rint ((log (qual) / log (94)) * 100.0);
++	percent = CLAMP (percent, 0, 100);
++
++	return percent;
++}
++
++
+ /* FIXME: The icon used by this applet when there's no signal is impossible
+  * to localise as it says N/A in the icon itself. Need to swap the icon
+  * with something more l10n friendly. Also, localising the label makes it
+@@ -152,7 +201,13 @@
+ 		gtk_tooltips_set_tip (applet->tips,
+ 				GTK_WIDGET (applet),
+ 				tmp, NULL);
+-		gtk_label_set_text (GTK_LABEL (applet->pct_label), tmp);
++
++		if (applet->helper_pid <= 0)
++			gtk_label_set_text (GTK_LABEL (applet->pct_label),
++					    tmp);
++		else
++			gtk_label_set_text (GTK_LABEL (applet->pct_label),
++					    "");
+ 	}
+ 	g_free (tmp);
+ 
+@@ -196,8 +251,7 @@
+ 		if (link < 1) {
+ 			percent = 0;
+ 		} else {
+-			percent = (int)rint ((log (link) / log (92)) * 100.0);
+-			percent = CLAMP (percent, 0, 100);
++			percent = wireless_applet_get_percent (link, level);
+ 		}
+ 	}
+ 
+@@ -205,6 +259,25 @@
+ }
+ 
+ static void
++wireless_applet_start_timeout (WirelessApplet *applet)
++{
++	applet->timeout_handler_id = g_timeout_add
++		(CFG_UPDATE_INTERVAL * 1000,
++		 (GtkFunction)wireless_applet_timeout_handler,
++		 applet);
++}
++
++static void
++wireless_applet_cancel_timeout (WirelessApplet *applet)
++{
++	g_source_remove (applet->timeout_handler_id);
++	applet->timeout_handler_id = -1;
++	wireless_applet_update_state (applet, applet->device, -1, -1, -1);
++}
++
++
++
++static void
+ wireless_applet_load_theme (WirelessApplet *applet) {
+ 	char *pixmapdir;
+ 	char *pixmapname;
+@@ -227,8 +300,11 @@
+ 
+ static void
+ wireless_applet_set_device (WirelessApplet *applet, gchar *device) {
++	g_return_if_fail (device != NULL);
++
+ 	g_free (applet->device);
+ 	applet->device = g_strdup (device);
++	iw_get_basic_config (applet->skfd, applet->device, &applet->cfg);
+ }
+ 
+ static void
+@@ -242,80 +318,190 @@
+ 	}
+ }
+ 
++static int
++wireless_applet_device_handler (int skfd,
++				char *ifname,
++				char *args[],
++				int count)
++{
++	WirelessApplet *ap = (WirelessApplet *)args[0];
++
++	ap->devices = g_list_append (ap->devices, g_strdup (ifname));
++}
++
+ /* check stats, modify the state attribute */
+ static void
+ wireless_applet_read_device_state (WirelessApplet *applet)
+ {
+-	long int level, noise;
+-	double link;
+-	char device[256];
+-	char line[256];
+-	gboolean found = FALSE;
++	iwrange range;
++	iwstats stats;
++	gboolean has_range;
++	
++	/* ewwwww */
++	char *enum_args[] = { (char *)applet };
+ 
+-	/* resest list of available wireless devices */
++	/* clear the device list */
+ 	g_list_foreach (applet->devices, (GFunc)g_free, NULL);
+ 	g_list_free (applet->devices);
+ 	applet->devices = NULL;
+ 
+-	/* Here we begin to suck... */
++	/* get the config */
++	iw_get_basic_config (applet->skfd, applet->device, &applet->cfg);
++
++	iw_enum_devices (applet->skfd,
++			 wireless_applet_device_handler,
++			 enum_args, 1);
++
++	has_range = iw_get_range_info (applet->skfd, applet->device, &range) < 0 ? FALSE : TRUE;
++
++	if (!iw_get_stats (applet->skfd, applet->device, &stats,
++			  &range, has_range)) {
++		wireless_applet_update_state (applet,
++					      applet->device,
++					      stats.qual.qual,
++					      stats.qual.level,
++					      stats.qual.noise);
++	} else {
++		wireless_applet_update_state (applet,
++					      applet->device,
++					      -1, -1, -1);
++	}
++}
++
++static gboolean
++wireless_applet_find_mac (WirelessApplet *applet, char *mac, GtkTreeIter *ret)
++{
++	GtkTreeIter iter;
++
++	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (applet->ap_store),
++					    &iter))
++		return FALSE;
++	
+ 	do {
+-		char *ptr;
++		wireless_ap *ap;
+ 
+-		fgets (line, 256, applet->file);
++		gtk_tree_model_get (GTK_TREE_MODEL (applet->ap_store),
++				    &iter, 0, &ap, -1);
++		if (strcmp (ap->address, mac) == 0) {
++			*ret = iter;
++			return TRUE;
++		}
++	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (applet->ap_store),
++					   &iter));
+ 
+-		if (feof (applet->file)) {
+-			break;
++	return FALSE;
++}
++
++static void
++wireless_applet_remove_old_ap (WirelessApplet *applet,
++			       time_t stamp)
++{
++	GtkTreeIter iter;
++
++	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (applet->ap_store),
++					    &iter))
++		return;
++	
++	do {
++		wireless_ap *ap;
++
++		gtk_tree_model_get (GTK_TREE_MODEL (applet->ap_store),
++				    &iter, 0, &ap, -1);
++
++		if (ap->stamp != stamp) {
++			gtk_list_store_remove
++				(GTK_LIST_STORE (applet->ap_store), &iter);
+ 		}
++	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (applet->ap_store),
++					   &iter));
++}
+ 
+-		if (line[6] == ':') {
+-			char *tptr = line;
+-			while (isspace (*tptr)) tptr++;
+-			strncpy (device, tptr, 6);
+-			(*strchr(device, ':')) = 0;
+-			ptr = line + 12;
+-
+-			/* Add the devices encountered to the list of possible devices */
+-			applet->devices = g_list_prepend (applet->devices, g_strdup (device));
+-
+-			/* is it the one we're supposed to monitor ? */
+-			if (g_ascii_strcasecmp (applet->device, device)==0) {
+-				link = strtod (ptr, &ptr);
+-				ptr++;
++static wireless_ap *
++find_ap (GList *list, const char *essid)
++{
++	GList *l;
++	for (l = list; l; l = l->next) {
++		wireless_ap *ap = l->data;
+ 
+-				level = strtol (ptr, &ptr, 10);
+-				ptr++;
++		if (strcmp (ap->essid, essid) == 0)
++			return ap;
++	}
++	
++	return NULL;
++}
++
++static void
++scan_handler (wireless_ap *ap, void *user_data)
++{
++	WirelessApplet *applet = user_data;
+ 
+-				noise = strtol (ptr, &ptr, 10);
+-				ptr++;
++	applet->scan_list = g_list_append (applet->scan_list, iw_wireless_ap_copy (ap));
++}
+ 
+-				wireless_applet_update_state (applet, device, link, level, noise);
+-				found = TRUE;
++static void
++wireless_applet_scan (WirelessApplet *applet)
++{
++	GList *filtered_list = NULL;
++	GList *l = NULL;
++	GList *ap_list = NULL;
++	time_t stamp = 0;
++	
++	iw_scan (applet->skfd, applet->device, scan_handler, applet);
++
++	ap_list = applet->scan_list;
++	applet->scan_list = NULL;
++	
++	for (l = ap_list; l; l = l->next) {
++		wireless_ap *ap = l->data;
++		wireless_ap *found_ap = find_ap (filtered_list, ap->essid);
++
++		if (found_ap != NULL) {
++			if (found_ap->quality < ap->quality) {
++				/* we want to display the max quality of
++				 * a given essid	
++				 */
++				found_ap->quality = ap->quality;
++				iw_wireless_ap_free (ap);
+ 			}
++		} else {
++			filtered_list = g_list_append (filtered_list, ap);
+ 		}
+-	} while (1);
++	}
+ 
+-	if (g_list_length (applet->devices)==1) {
+-		wireless_applet_set_device (applet,
+-				(char*)applet->devices->data);
+-	} else if (found == FALSE) {
+-		wireless_applet_update_state (applet,
+-				applet->device, -1, -1, -1);
++	g_list_free (ap_list);
++
++	for (l = filtered_list; l; l = l->next) {
++		wireless_ap *ap = l->data;
++		GtkTreeIter iter;
++
++		if (!wireless_applet_find_mac (applet, ap->address, &iter)) {
++			
++			gtk_list_store_append (applet->ap_store,
++					       &iter);
++		}
++		
++		gtk_list_store_set (applet->ap_store,
++				    &iter, 0, ap, -1);
++		stamp = ap->stamp;
+ 	}
+ 
+-	/* rewind the /proc/net/wireless file */
+-	rewind (applet->file);
++	if (stamp != 0) {
++		wireless_applet_remove_old_ap (applet, stamp);
++	}
++
++	//g_list_foreach (filtered_list, (GFunc)iw_wireless_ap_free, NULL);
++	g_list_free (filtered_list);
+ }
+ 
+ static int
+ wireless_applet_timeout_handler (WirelessApplet *applet)
+ {
+-	if (applet->file == NULL) {
+-		wireless_applet_update_state (applet,
+-				applet->device, -1, -1, -1);
+-		return FALSE;
+-	}
+-
++	if (!GTK_WIDGET_IS_SENSITIVE (applet->ap_view))
++		gtk_widget_set_sensitive (GTK_WIDGET (applet->ap_view), TRUE);
++	
+ 	wireless_applet_read_device_state (applet);
++	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (applet->button)))
++			wireless_applet_scan (applet);
+ 
+ 	return TRUE;
+ }
+@@ -358,10 +544,11 @@
+ }
+ 
+ static void
+-start_file_read (WirelessApplet *applet)
++check_wireless (WirelessApplet *applet)
+ {
+-	applet->file = fopen ("/proc/net/wireless", "rt");
+-	if (applet->file == NULL) {
++	struct stat sbuf;
++	
++	if (stat ("/proc/net/wireless", &sbuf) != 0) {
+ 		gtk_tooltips_set_tip (applet->tips,
+ 				GTK_WIDGET (applet),
+ 				_("No Wireless Devices"),
+@@ -373,8 +560,9 @@
+ static void
+ wireless_applet_load_properties (WirelessApplet *applet)
+ {
+-	applet->device = panel_applet_gconf_get_string (PANEL_APPLET (applet),
+-			"device", NULL);
++	wireless_applet_set_device (applet,
++			  panel_applet_gconf_get_string (PANEL_APPLET (applet),
++							 "device", NULL));
+ 
+ 	/* Oooh, new applet, let's put in the defaults */
+ 	if (applet->device == NULL)
+@@ -670,19 +858,280 @@
+ 		applet->prefs = NULL;
+ 	}
+ 
+-	if (applet->file)
+-		fclose (applet->file);
+ 	if (applet->tips)
+ 		g_object_unref (applet->tips);
+ }
+ 
+ static void
++present_ap_popup (WirelessApplet *applet)
++{
++	GtkRequisition  req;
++	GdkScreen      *screen;
++	GdkRectangle    monitor;
++	int             button_w, button_h;
++	int             x, y;
++	int             w, h;
++	int             i, n;
++	gboolean        found_monitor = FALSE;
++	GtkWidget      *button = applet->button;
++	GtkWidget      *window = applet->ap_popup;
++	
++	/* Get root origin of the toggle button, and position above that. */
++	gdk_window_get_origin (button->window, &x, &y);
++
++	gtk_window_get_size (GTK_WINDOW (window), &w, &h);
++	gtk_widget_size_request (window, &req);
++	w = req.width;
++	h = req.height;
++
++	button_w = button->allocation.width;
++	button_h = button->allocation.height;
++
++	screen = gtk_window_get_screen (GTK_WINDOW (window));
++
++	n = gdk_screen_get_n_monitors (screen);
++	for (i = 0; i < n; i++) {
++		gdk_screen_get_monitor_geometry (screen, i, &monitor);
++		if (x >= monitor.x && x <= monitor.x + monitor.width &&
++		    y >= monitor.y && y <= monitor.y + monitor.height) {
++			found_monitor = TRUE;
++			break;
++		}
++	}
++
++	if ( ! found_monitor) {
++		/* eek, we should be on one of those xinerama
++		   monitors */
++		monitor.x = 0;
++		monitor.y = 0;
++		monitor.width = gdk_screen_get_width (screen);
++		monitor.height = gdk_screen_get_height (screen);
++	}
++		
++	/* Based on panel orientation, position the popup.
++	 * Ignore window gravity since the window is undecorated.
++	 * The orientations are all named backward from what
++	 * I expected.
++	 */
++	switch (panel_applet_get_orient (PANEL_APPLET (applet))) {
++	case PANEL_APPLET_ORIENT_RIGHT:
++		x += button_w;
++		if ((y + h) > monitor.y + monitor.height)
++			y -= (y + h) - (monitor.y + monitor.height);
++		break;
++	case PANEL_APPLET_ORIENT_LEFT:
++		x -= w;
++		if ((y + h) > monitor.y + monitor.height)
++			y -= (y + h) - (monitor.y + monitor.height);
++		break;
++	case PANEL_APPLET_ORIENT_DOWN:
++		y += button_h;
++		if ((x + w) > monitor.x + monitor.width)
++			x -= (x + w) - (monitor.x + monitor.width);
++		break;
++	case PANEL_APPLET_ORIENT_UP:
++		y -= h;
++		if ((x + w) > monitor.x + monitor.width)
++			x -= (x + w) - (monitor.x + monitor.width);
++		break;
++	}
++
++	gtk_tree_selection_unselect_all (gtk_tree_view_get_selection (GTK_TREE_VIEW (applet->ap_view)));
++		
++	gtk_window_move (GTK_WINDOW (window), x, y);
++	gtk_window_present (GTK_WINDOW (window));
++	//gtk_widget_show (window);
++}
++
++static void
++applet_button_toggled (GtkWidget *button, WirelessApplet *applet)
++{
++	wireless_ap *ap_list, *ap;
++	
++
++	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
++		wireless_applet_scan (applet);
++		present_ap_popup (applet);
++	} else {
++		gtk_widget_hide (applet->ap_popup);
++	}
++}
++
++static void
++ap_essid_cell_data_cb (GtkTreeViewColumn *column,
++		       GtkCellRenderer *renderer,
++		       GtkTreeModel *model,
++		       GtkTreeIter *iter,
++		       gpointer data)
++{
++	WirelessApplet *applet = data;
++	wireless_ap *ap;
++	char *markup;
++
++	g_return_if_fail (renderer != NULL);
++	g_return_if_fail (iter != NULL);
++	g_return_if_fail (model != NULL);
++	
++	gtk_tree_model_get (model, iter, 0, &ap, -1);
++
++	if (applet->cfg.has_freq &&
++	    strcmp (ap->essid, applet->cfg.essid) == 0)
++		markup = g_strdup_printf ("<b>%s</b>", ap->essid);
++	else
++		markup = g_strdup (ap->essid);
++	
++	g_object_set (G_OBJECT (renderer), "markup", markup, NULL);
++	g_free (markup);
++}
++
++
++
++static void
++ap_quality_cell_data_cb (GtkTreeViewColumn *column,
++			 GtkCellRenderer *renderer,
++			 GtkTreeModel *model,
++			 GtkTreeIter *iter,
++			 gpointer data)
++{
++	WirelessApplet *applet = data;
++	wireless_ap *ap;
++	int percent;
++	
++	gtk_tree_model_get (model, iter, 0, &ap, -1);
++	
++	percent = wireless_applet_get_percent (ap->quality, 92);
++	
++	g_object_set (G_OBJECT (renderer), "value", percent, NULL);
++}
++
++static void
++ap_encryption_cell_data_cb (GtkTreeViewColumn *column,
++			    GtkCellRenderer *renderer,
++			    GtkTreeModel *model,
++			    GtkTreeIter *iter,
++			    gpointer data)
++{
++	WirelessApplet *applet = data;
++	wireless_ap *ap;
++	
++	gtk_tree_model_get (model, iter, 0, &ap, -1);
++
++	/*
++	if (ap->key != NULL)
++		g_object_set (G_OBJECT (renderer), "stock_id",
++			      GTK_STOCK_CLOSE, NULL);
++	*/
++}
++
++static gboolean
++check_pid_status (WirelessApplet *applet)
++{
++	int status;
++	int ret;
++	static PixmapState state = PIX_CONNECT_0;
++
++	ret = waitpid (applet->helper_pid, &status, WNOHANG);
++	if (ret > 0) {
++		applet->helper_pid = -1;
++		wireless_applet_start_timeout (applet);
++		state = PIX_CONNECT_0;
++		return FALSE;
++	} else if (ret < 0) {
++		g_message ("waitpid: %s", strerror(errno));
++		state = PIX_CONNECT_0;
++		wireless_applet_start_timeout (applet);
++		return FALSE;
++	} else {
++		applet->current_pixbuf = (GdkPixbuf *)applet->pixmaps[state];
++		gtk_image_set_from_pixbuf (GTK_IMAGE (applet->pixmap),
++				applet->current_pixbuf);
++
++		if (state == PIX_CONNECT_3)
++			state = PIX_CONNECT_0;
++		else
++			state++;
++	}
++
++	return TRUE;
++}
++
++static void
++wireless_applet_set_essid (WirelessApplet *applet,
++			   char *essid)
++{
++	char *args[4];
++	int child;
++	
++	args[0] = PREFIX "/bin/wireless-applet-helper";
++	args[1] = applet->device;
++	args[2] = essid;
++	args[3] = NULL;
++	
++	g_spawn_async("/tmp", args, NULL,
++		      G_SPAWN_SEARCH_PATH|G_SPAWN_DO_NOT_REAP_CHILD,
++		      NULL, NULL, &applet->helper_pid,
++		      NULL);
++	g_timeout_add (250, (GSourceFunc)check_pid_status, applet);
++	
++	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (applet->button),
++				      FALSE);
++	gtk_widget_set_sensitive (GTK_WIDGET (applet->ap_view), FALSE);
++	wireless_applet_cancel_timeout (applet);
++}
++
++
++static void
++wireless_applet_row_activate_cb (GtkTreeView *tree_view,
++				 GtkTreePath *path,
++				 GtkTreeViewColumn *column,
++				 WirelessApplet *applet)
++{
++	GtkTreeIter iter;
++	wireless_ap *ap;
++
++	gtk_tree_model_get_iter (GTK_TREE_MODEL (applet->ap_store),
++				 &iter, path);
++
++	gtk_tree_model_get (GTK_TREE_MODEL (applet->ap_store),
++			    &iter, 0, &ap, -1);
++
++
++	/* set the essid */
++	wireless_applet_set_essid (applet, ap->essid);
++	
++}
++
++static gint
++ap_compare_func (GtkTreeModel *model,
++		 GtkTreeIter *a,
++		 GtkTreeIter *b,
++		 gpointer user_data)
++{
++	wireless_ap *ap_a;
++	wireless_ap *ap_b;
++
++	gtk_tree_model_get (model, a, 0, &ap_a, -1);
++	gtk_tree_model_get (model, b, 0, &ap_b, -1);
++
++	if (ap_a->quality > ap_b->quality)
++		return 1;
++	if (ap_a->quality == ap_b->quality)
++		return 0;
++	else
++		return -1;
++}
++
++
++static void
+ setup_widgets (WirelessApplet *applet)
+ {
+ 	GtkRequisition req;
+ 	gint total_size = 0;
+ 	gboolean horizontal = FALSE;
+ 	gint panel_size;
++	GtkTreeViewColumn *column;
++	GtkCellRenderer *renderer;
++	GtkWidget *viewport;
+ 	
+ 	panel_size = panel_applet_get_size (PANEL_APPLET (applet));
+ 	
+@@ -720,9 +1169,80 @@
+ 			total_size += req.width;
+ 	}
+ 
++	/* construct ap popup window */
++	applet->ap_popup = gtk_window_new (GTK_WINDOW_TOPLEVEL);
++	gtk_window_set_type_hint (GTK_WINDOW (applet->ap_popup),
++				  GDK_WINDOW_TYPE_HINT_DOCK);
++	gtk_window_set_resizable (GTK_WINDOW (applet->ap_popup),
++				  FALSE);
++	gtk_window_stick (GTK_WINDOW (applet->ap_popup));
++	gtk_window_set_default_size (GTK_WINDOW (applet->ap_popup),
++				     0, 0);
++	gtk_window_set_decorated (GTK_WINDOW (applet->ap_popup), FALSE);
++
++	applet->ap_store = gtk_list_store_new (1, wireless_ap_get_type());
++	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (applet->ap_store),
++					 0,
++					 ap_compare_func,
++					 applet,
++					 NULL);
++	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (applet->ap_store),
++					      0, GTK_SORT_DESCENDING);
++	
++	applet->ap_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (applet->ap_store));
++	g_signal_connect (applet->ap_view, "row_activated",
++			  G_CALLBACK (wireless_applet_row_activate_cb),
++			  applet);
++	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (applet->ap_view),
++				      FALSE);
++	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (applet->ap_view),
++					   FALSE);
++	
++	/* the quality column */
++	renderer = GTK_CELL_RENDERER (ephy_cell_renderer_progress_new ());
++	column = gtk_tree_view_column_new_with_attributes ("Quality",
++							   renderer,
++							   NULL);
++	gtk_tree_view_column_set_cell_data_func (column, renderer,
++						 ap_quality_cell_data_cb,
++						 applet, NULL);
++	gtk_tree_view_append_column (GTK_TREE_VIEW (applet->ap_view),
++				     column);
++
++	viewport = gtk_viewport_new (NULL, NULL);
++	gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport),
++				      GTK_SHADOW_ETCHED_IN);
++	
++	gtk_container_add (GTK_CONTAINER (viewport), applet->ap_view);
++	gtk_container_add (GTK_CONTAINER(applet->ap_popup), viewport);
++
++	gtk_widget_show_all (viewport);
++	
++	/* the essid column */
++	renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
++	column = gtk_tree_view_column_new_with_attributes ("ESSID",
++							   renderer,
++							   NULL);
++	gtk_tree_view_column_set_cell_data_func (column, renderer,
++						 ap_essid_cell_data_cb,
++						 applet, NULL);
++	gtk_tree_view_append_column (GTK_TREE_VIEW (applet->ap_view),
++				     column);
++
++	/* encryption column */
++	renderer = GTK_CELL_RENDERER (gtk_cell_renderer_pixbuf_new ());
++	column = gtk_tree_view_column_new_with_attributes ("Encryption",
++							   renderer,
++							   NULL);
++	gtk_tree_view_column_set_cell_data_func (column, renderer,
++						 ap_encryption_cell_data_cb,
++						 applet, NULL);
++	gtk_tree_view_append_column (GTK_TREE_VIEW (applet->ap_view),
++				     column);
++	
+ 	/* pack */
+-	if (applet->box)
+-		gtk_widget_destroy (applet->box);
++	if (applet->button)
++		gtk_widget_destroy (applet->button);
+ 
+ 	if (horizontal && (total_size <= panel_size))
+ 		applet->box = gtk_vbox_new (FALSE, 0);
+@@ -732,13 +1252,20 @@
+ 		applet->box = gtk_hbox_new (FALSE, 0);
+ 	else 
+ 		applet->box = gtk_vbox_new (FALSE, 0);
++
++	applet->button = gtk_toggle_button_new ();
++	g_signal_connect(applet->button, "toggled",
++			 G_CALLBACK(applet_button_toggled), applet);
++	gtk_button_set_relief (GTK_BUTTON (applet->button), GTK_RELIEF_NONE);
++	gtk_container_add (GTK_CONTAINER(applet->button), applet->box);
+ 	
+ 	gtk_box_pack_start (GTK_BOX (applet->box), applet->pixmap, TRUE, TRUE, 0);
+ 	gtk_box_pack_start (GTK_BOX (applet->box), applet->pct_label, TRUE, TRUE, 0);
+ 	/* note, I don't use show_all, because this way the percent label is
+ 	 * only realised if it's enabled */
++	gtk_widget_show (applet->button);
+ 	gtk_widget_show (applet->box);
+-	gtk_container_add (GTK_CONTAINER (applet), applet->box);
++	gtk_container_add (GTK_CONTAINER (applet), applet->button);
+ 
+ 	applet->current_pixbuf = NULL;
+ 	applet->about_dialog = NULL;
+@@ -756,6 +1283,16 @@
+ 	wireless_applet_timeout_handler (applet);
+ }
+ 
++static gboolean
++do_not_eat_button_press (GtkWidget      *widget,
++                         GdkEventButton *event)
++{
++        if (event->button != 1)
++                g_signal_stop_emission_by_name (widget, "button_press_event");
++                                                                                
++        return FALSE;
++}
++
+ static void change_background_cb(PanelApplet *a, PanelAppletBackgroundType type,
+ 				 GdkColor *color, GdkPixmap *pixmap,
+ 				 WirelessApplet *applet)
+@@ -786,10 +1323,10 @@
+ static GtkWidget *
+ wireless_applet_new (WirelessApplet *applet)
+ {
+-	AtkObject *atk_obj;
+-
+ 	panel_applet_set_flags (PANEL_APPLET (applet), PANEL_APPLET_EXPAND_MINOR);
+ 
++	applet->skfd = iw_sockets_open ();
++	
+ 	/* this ensures that properties are loaded */
+ 	wireless_applet_load_properties (applet);
+ 	wireless_applet_load_theme (applet);
+@@ -801,9 +1338,12 @@
+ 	gtk_object_sink (GTK_OBJECT (applet->tips));
+ 	applet->prefs = NULL;
+ 
+-	g_signal_connect (GTK_OBJECT (applet),"destroy",
+-			   GTK_SIGNAL_FUNC (wireless_applet_destroy),NULL);
++	g_signal_connect (applet,"destroy",
++			  G_CALLBACK (wireless_applet_destroy),NULL);
+ 
++	g_signal_connect (applet->button, "button_press_event",
++			  G_CALLBACK (do_not_eat_button_press), NULL);
++	
+ 	/* Setup the menus */
+ 	panel_applet_setup_menu_from_file (PANEL_APPLET (applet),
+ 			NULL,
+@@ -823,20 +1363,11 @@
+ 					      NULL);
+ 	}
+ 
+-	start_file_read (applet);
++	check_wireless (applet);
+ 	wireless_applet_timeout_handler (applet);
+ 
+-	applet->timeout_handler_id = gtk_timeout_add
+-		(CFG_UPDATE_INTERVAL * 1000,
+-		 (GtkFunction)wireless_applet_timeout_handler,
+-		 applet);
+-
+-	atk_obj = gtk_widget_get_accessible (GTK_WIDGET (applet));
+-
+-	if (GTK_IS_ACCESSIBLE (atk_obj)) {
+-		atk_object_set_name (atk_obj, _("Wireless Link Monitor"));
+-		atk_object_set_description (atk_obj, _("This utility shows the status of a wireless link"));
+-	}
++	
++	wireless_applet_start_timeout (applet);
+ 		 
+ 	g_signal_connect (G_OBJECT (applet), "change_size",
+ 			  G_CALLBACK (change_size_cb), applet);

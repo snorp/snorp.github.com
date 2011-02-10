@@ -1,0 +1,43 @@
+---
+layout: post
+title: "avahi-sharp"
+---
+
+       		
+<p>I spent some time last night hacking up some Avahi bindings for C#, using the DBus <span class="caps">API</span>.  The wrapper is <a href="http://www.snorp.net/Server.cs">here</a>, and a little test app is <a href="http://www.snorp.net/AvahiTest.cs">here</a>.  The test app registers a &#8216;foobar&#8217; service, and then lists all services in the default (I think?) domain.  Obligatory &#8216;screenshot&#8217; below.  Unfortunately, I ran into some dbus-sharp bugs while doing this.  You&#8217;ll need <a href="http://www.snorp.net/dbus_sharp_avahi_fixes_v1.diff">this</a> patch to dbus-sharp in order to use it.  You can also grab a dll <a href="http://www.snorp.net/dbus-sharp.dll">here</a>.</p>
+<p><code>
+snorp@sackbut misc/avahi/avahi-sharp % mono test.exe
+Service 'Living Room' at DVR-8477.local:80
+Txt: TSN=54000000000000
+Resolved DVR-8477.local to 192.168.1.105
+Reverse resolved 192.168.1.105 to DVR-8477.local
+Service 'Now Playing on Living Room' at DVR-8477.local:443
+Txt: TSN=54000000000000
+Resolved DVR-8477.local to 192.168.1.105
+Reverse resolved 192.168.1.105 to DVR-8477.local
+Service 'Now Playing on Living Room' at DVR-8477.local:443
+Txt: TSN=54000000000000
+Resolved DVR-8477.local to 192.168.1.105
+Reverse resolved 192.168.1.105 to DVR-8477.local
+Service 'iTunes_Ctrl_60AA03D0FEE58A7F' at homer.local:3689
+Txt: DbId=10000
+Resolved homer.local to 192.168.1.103
+Reverse resolved 192.168.1.103 to homer.local
+Service 'snorp’s Music' at homer.local:3689
+Txt: Password=false
+Resolved homer.local to 192.168.1.103
+Reverse resolved 192.168.1.103 to homer.local
+Service 'Remote Terminal on sackbut' at sackbut.local:22
+Resolved sackbut.local to 192.168.1.101
+Reverse resolved 192.168.1.101 to sackbut.local
+Service 'sackbut [00:0d:60:36:95:4d]' at sackbut.local:9
+Resolved sackbut.local to 192.168.1.101
+Reverse resolved 192.168.1.101 to sackbut.local
+Service 'foobar' at sackbut.local:8080
+Txt:
+Resolved sackbut.local to 192.168.1.101
+Reverse resolved 192.168.1.101 to sackbut.local
+</code></p>
+
+
+   		

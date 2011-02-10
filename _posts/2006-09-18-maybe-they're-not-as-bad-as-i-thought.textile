@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Maybe they're not as bad as I thought"
+---
+
+       		
+<p>The <a href="http://www.snorp.net/log/2006/09/14/why-i-hate-apple-still/">iPod situation</a> is now mostly fixed.  I was able to figure out how iTunes gets the iPod serial number (and other info) with the help of a <span class="caps">USB</span> monitoring tool and Matt Dharm (the usb-storage guy).  After that, <a href="http://www.abock.org">Aaron</a> used the metric ton of SysInfo samples you guys sent in to get a serial number &#8594; model number&nbsp;mapping.</p>
+<p>To get info about (recent) device, iTunes requests an xml <a href="http://www.snorp.net/ipod.xml">document</a> from it over <span class="caps">USB</span>.  I saw this in the <span class="caps">USB</span> trace I had, but the data was nowhere on the disk exposed by <span class="caps">USB</span> Mass Storage.  Puzzling.  Not really knowing much about <span class="caps">USB</span> MC, I enlisted the help of Matt, who obviously knows a lot more.  He informed me that it was requesting the data using a special <span class="caps">SCSI</span> <span class="caps">INQUIRY</span> command, and I could probably use <a href="http://sg.torque.net/sg/sg_io.html">SG_IO</a> to get it out.  I ran <code>sg_inq</code> on my iPod with the right parameters, and out came the xml.  Success!  After that I wrote a hal method for libipoddevice to pull the info out (since you need to be root), and the rest was just parsing the xml and doing the serial &#8594; model&nbsp;mapping.</p>
+<p>Even though it was a fairly painful couple of days trying to fix this, I&#8217;m pretty happy with the result.  The xml from the device includes some really tasty stuff, including information on the image formats for cover art and photos.  We are using this data now in ipod-sharp instead of the static table we had before, which will be really great for maintenance.  New iPods with previously unknown image formats will Just Work!  There is also data on the video formats, which I will soon use to add video support to <a href="http://www.snorp.net/log/dopi">Dopi</a></p>
+
+
+   		

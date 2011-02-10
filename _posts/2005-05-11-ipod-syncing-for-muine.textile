@@ -1,0 +1,14 @@
+---
+layout: post
+title: "iPod syncing for Muine"
+---
+
+       		
+<p>A while ago I started working on a plugin for Muine that syncs your library with an iPod.  I worked on it a bit more lately and it seems to be coming along, so I&#8217;m trying to get people to test it.  You need <a href="http://www.snorp.net/files/packages/ipod-sharp-0.0.3.tar.gz">this</a> and <a href="http://www.snorp.net/files/packages/muine-ipod-0.0.3.tar.gz">this</a>, to&nbsp;start.</p>
+<p>Right now there is no <span class="caps">HAL</span> integration, as I&#8217;m having an incredibly difficult time figuring out the correct way to integrate with that stuff.  What it will do, however, is mount/umount your iPod assuming it is setup correctly in fstab (correct device, &#8216;user&#8217; option, etc).  It defaults to /media/ipod for the mount point, but that is configurable through a gconf key&nbsp;(/apps/muine/ipod/mount_path).</p>
+<p>I&#8217;ve been using it for the last few days with no serious problems.  I do suggest you backup your iTunesDB file before giving it a shot, though, as corrupting that is the worst thing that can happen.  You can find it at /media/ipod/iPod_Control/iTunes/iTunesDB.  If you encounter problems, feel free to <a href="mailto:snorp@snorp.net">email me</a>.</p>
+<p><b>Update:</b> You will need muine 0.8.3 or greater to use this plugin, as previous versions lack the necessary&nbsp;interface.</p>
+<p><b>Another Update:</b> I&#8217;ve checked ipod-sharp and muine-ipod into arch at <a href="http://www.snorp.net/bazaar">http://www.snorp.net/bazaar</a>.</p>
+
+
+   		

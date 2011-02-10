@@ -1,0 +1,13 @@
+---
+layout: post
+title: "new place"
+---
+
+       		
+<p>I moved today.  It went pretty well.  Amy and her parents helped out a lot so that was good.  Rupert is back online so that made people&nbsp;happy.</p>
+<p>A guy (Darren Brierton) has been mailing me lately about rcd on fc2, and eventually he told me he wanted to get <a href="http://www.redhat.com/archives/fedora-list/2004-July/msg03182.html">rcd into fedora</a>.  He totally&nbsp;rules.</p>
+<p>9 days till wedding&nbsp;:)</p>
+<p><b>Update:</b>  I committed mono bindings for libredcarpet to <span class="caps">CVS</span> this week.&nbsp;Ph33r.</p>
+
+
+   		

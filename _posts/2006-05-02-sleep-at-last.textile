@@ -1,0 +1,11 @@
+---
+layout: post
+title: "sleep at last"
+---
+
+       		
+<p>For the first time ever, I was able to successfully suspend my laptop (<span class="caps">IBM</span> T40p) to <span class="caps">RAM</span>.  For the longest time I was having a problem where the disk would go completely insane upon resuming.  Very&nbsp;annoying.</p>
+<p>I found out recently that it was probably due to the <span class="caps">BIOS</span> re-enabling <span class="caps">HPA</span> (Host Protected Area) when coming out of sleep.  Unfortunately, there didn&#8217;t appear to be any kind of workaround for it, but tonight I discovered that you can use the <a href="http://www.hitachigst.com/hdd/support/download.htm#FeatureTool">Hitachi Feature Tool</a> to disable it for good.  It totally fixed my problem.&nbsp;Woo.</p>
+
+
+   		

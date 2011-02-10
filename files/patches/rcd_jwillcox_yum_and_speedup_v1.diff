@@ -1,0 +1,332 @@
+Index: src/rcd-world-remote.c
+===================================================================
+RCS file: /cvs/gnome/rcd/src/rcd-world-remote.c,v
+retrieving revision 1.42
+diff -u -r1.42 rcd-world-remote.c
+--- src/rcd-world-remote.c	4 Feb 2004 16:21:12 -0000	1.42
++++ src/rcd-world-remote.c	27 May 2004 23:41:50 -0000
+@@ -659,6 +659,129 @@
+         return 0;
+ }
+ 
++static void
++parse_nevra (const char *input,
++             char **name_out, guint32 *epoch_out,
++             char **version_out, char **release_out,
++             char **arch_out)
++{
++    char *arch_sep;
++    char *release_sep;
++    char *ver_sep;
++    char *epoch_sep;
++    char *epoch_str;
++    
++    arch_sep = g_strrstr (input, ".");
++    *arch_out = g_strdup (arch_sep + 1);
++    arch_sep[0] = '\0';
++    
++    release_sep = g_strrstr (input, "-");
++    *release_out = g_strdup (release_sep + 1);
++    release_sep[0] = '\0';
++
++    ver_sep = g_strrstr (input, "-");
++    *version_out = g_strdup (ver_sep + 1);
++    ver_sep[0] = '\0';
++
++    epoch_sep = strstr (input, ":");
++    epoch_str = g_strndup (input, epoch_sep - input);
++    *epoch_out = atoi (epoch_str);
++    g_free (epoch_str);
++
++    *name_out = g_strdup (epoch_sep + 1);
++}
++
++gint
++rcd_extract_packages_from_yum_buffer (RCDWorldRemote *world,
++                                      const guint8 *orig_data, int len,
++                                      RCPackman *packman,
++                                      RCChannel *channel,
++                                      RCPackageFn callback,
++                                      gpointer user_data)
++{
++    int count = 0;
++    char **lines;
++    int i;
++    char *data;
++
++    g_return_val_if_fail (packman != NULL, -1);
++
++    /* the yum header.info files are text files with header file names and urls:
++     *
++     * example:
++     * 0:pwlib-devel-1.5.0-4.i386=pwlib-devel-1.5.0-4.i386.rpm
++     */
++
++    data = g_strdup (orig_data);
++    lines = g_strsplit (g_strstrip (data), "\n", 0);
++
++    for (i = 0; lines[i]; i++) {
++        char *line = lines[i];
++        char **split_a = g_strsplit (line, "=", 2);
++        guint32 epoch = 0;
++        char *name, *version, *release, *arch;
++        char *rpm_url, *header_url;
++        RCDCacheEntry *entry;
++        RCDTransfer *transfer;
++        const GByteArray *header_data;
++        RCPackage *p;
++        GByteArray *decompressed_data = NULL;
++        
++        parse_nevra (split_a[0], &name, &epoch, &version, &release, &arch);
++        
++        header_url = g_strdup_printf ("%s/headers/%s-%d-%s-%s.%s.hdr",
++                                      rc_channel_get_path (channel),
++                                      name, epoch, version, release, arch);
++
++        g_free (name);
++        g_free (version);
++        g_free (release);
++        g_free (arch);
++
++        entry = rcd_cache_lookup_by_url (rcd_cache_get_normal_cache (),
++                                         header_url,
++                                         TRUE);
++        
++        transfer = rcd_transfer_new (header_url,
++                                     RCD_TRANSFER_FLAGS_NONE, entry);
++
++        header_data = rcd_transfer_begin_blocking (transfer);
++
++        if (rc_memory_looks_compressed (header_data->data, header_data->len)) {
++            if (rc_uncompress_memory (header_data->data, header_data->len,
++                                      &decompressed_data) < 0) {
++                g_strfreev (split_a);
++                continue;
++            }
++
++            header_data = decompressed_data;
++        }
++
++        rpm_url = g_strdup_printf ("%s/%s",
++                                   rc_channel_get_file_path (channel),
++                                   split_a[1]);
++        
++        p = rc_extract_yum_package (header_data->data, header_data->len,
++                                    packman, rpm_url);
++        p->channel = rc_channel_ref (channel);
++
++        g_strfreev (split_a);
++
++        if (callback)
++            callback (p, user_data);
++
++        if (decompressed_data)
++            g_byte_array_free (decompressed_data, TRUE);
++        
++        count++;
++    }
++
++    g_free (data);
++    g_strfreev (lines);
++    return count;
++}
++
++
+ static gboolean
+ rcd_world_remote_parse_channel_data (RCDWorldRemote *remote,
+                                      RCChannel      *channel,
+@@ -704,6 +827,13 @@
+                                                         prepend_package,
+                                                         &package_list);
+         break;
++    case RC_CHANNEL_TYPE_YUM:
++        count = rcd_extract_packages_from_yum_buffer (remote, buffer, buffer_len,
++                                                      rc_packman_get_global (),
++                                                      channel,
++                                                      prepend_package,
++                                                      &package_list);
++        break;
+ 
+     default:
+         rc_debug (RC_DEBUG_LEVEL_WARNING, "Unknown channel type for '%s'!",
+@@ -763,12 +893,28 @@
+ channel_data_file_done_cb (RCDTransfer *t, gpointer user_data)
+ {
+     PerChannelData *data = user_data;
+-
++    RCChannel *old_chan;
++    
+     if (!rcd_transfer_get_error (t)) {
+-        rcd_world_remote_parse_channel_data (data->remote,
+-                                             data->channel,
+-                                             t->data->data,
+-                                             t->data->len);
++        if (!t->cache_hit ||
++            !rc_world_contains_channel (RC_WORLD (data->remote),
++                                        data->channel)) {
++            /* something changed, remove the old channel and add the new one */
++            old_chan = rc_world_get_channel_by_name (RC_WORLD (data->remote),
++                                                     rc_channel_get_name (data->channel));
++            if (old_chan != NULL) {
++                rc_world_store_remove_channel (RC_WORLD_STORE (data->remote),
++                                               old_chan);
++            }
++
++            rc_world_store_add_channel (RC_WORLD_STORE (data->remote),
++                                            data->channel);
++
++            rcd_world_remote_parse_channel_data (data->remote,
++                                                 data->channel,
++                                                 t->data->data,
++                                                 t->data->len);
++        }
+     }
+ 
+     g_object_unref (data->remote);
+@@ -781,6 +927,7 @@
+     gboolean local;
+     gboolean flush;
+     RCDTransferPool *pool;
++    GList *channels;
+ } ChannelData;
+ 
+ static gboolean
+@@ -805,9 +952,15 @@
+     rc_channel_set_id_prefix (channel,
+                               RC_WORLD_SERVICE (channel_data->remote)->unique_id);
+ 
++    /*
+     rc_world_store_add_channel (RC_WORLD_STORE (channel_data->remote),
+                                 channel);
++    */
+ 
++    channel_data->channels = g_list_prepend (channel_data->channels,
++                                             channel);
++            
++    
+     /* Channel data */
+     if (channel_data->flush) {
+         entry  = rcd_cache_lookup (rcd_cache_get_normal_cache (),
+@@ -831,7 +984,15 @@
+ 
+         if (buf) {
+             gboolean success;
++            RCChannel *old_chan = rc_world_get_channel_by_name (RC_WORLD (channel_data->remote),
++                                                                rc_channel_get_name (channel));
+ 
++            /* remove the old channel and add the new one */
++            rc_world_store_remove_channel (RC_WORLD_STORE (channel_data->remote),
++                                           old_chan);
++            rc_world_store_add_channel (RC_WORLD_STORE (channel_data->remote),
++                                        channel);
++            
+             success = rcd_world_remote_parse_channel_data (channel_data->remote,
+                                                            channel,
+                                                            buf->data,
+@@ -848,13 +1009,14 @@
+ 
+         url = rcd_world_remote_get_channel_data_url (channel_data->remote,
+                                                      channel);
++
+         t = rcd_transfer_new (url, RCD_TRANSFER_FLAGS_BUFFER_DATA, entry);
+         g_free (url);
+     
+         per_channel_data = g_new0 (PerChannelData, 1);
+         per_channel_data->remote = g_object_ref (channel_data->remote);
+         per_channel_data->channel = rc_channel_ref (channel);
+-
++        
+         g_signal_connect (t, "file_done",
+                           (GCallback) channel_data_file_done_cb,
+                           per_channel_data);
+@@ -863,7 +1025,7 @@
+             channel_data->pool =
+                 rcd_transfer_pool_new (FALSE, "Package data download");
+         }
+-    
++        
+         rcd_transfer_pool_add_transfer (channel_data->pool, t);
+         g_object_unref (t);
+     }
+@@ -920,15 +1082,6 @@
+     g_object_unref (world);
+ }
+ 
+-static gboolean
+-remove_channel_cb (RCChannel *channel, gpointer user_data)
+-{
+-    RCWorldStore *store = RC_WORLD_STORE (user_data);
+-
+-    rc_world_store_remove_channel (store, channel);
+-
+-    return TRUE;
+-}
+ 
+ static gboolean
+ saved_target_differs (RCDWorldRemote *remote)
+@@ -980,6 +1133,23 @@
+     }
+ }
+ 
++static gboolean
++world_check_channel_cb (RCChannel *channel, gpointer user_data)
++{
++    GList *channels = user_data;
++    GList *l;
++
++    for (l = channels; l; l = l->next) {
++        RCChannel *c = (RCChannel *)l->data;
++        if (rc_channel_equal (c, channel))
++            return TRUE;
++    }
++
++    rc_world_store_remove_channel (RC_WORLD_STORE (rc_channel_get_world (channel)),
++                                   channel);
++    return TRUE;
++}
++
+ static RCPending *
+ rcd_world_remote_fetch_channels (RCDWorldRemote *remote, gboolean local,
+                                  GError **error)
+@@ -1032,13 +1202,14 @@
+     g_assert (buffer != NULL);
+ 
+     /* Clear out the old channel and package data */
+-    rc_world_foreach_channel (RC_WORLD (remote), remove_channel_cb, remote);
++    //rc_world_foreach_channel (RC_WORLD (remote), remove_channel_cb, remote);
+ 
+     channel_data.remote = remote;
+     channel_data.local = local;
+     channel_data.flush = FALSE;
+     channel_data.pool = NULL; /* May be set in _per_channel_cb() */
+-
++    channel_data.channels = NULL;
++    
+     /*
+      * Channel data is cached by service id + channel bid.  Channel bids
+      * are the same across distros, so it's possible that your target can
+@@ -1068,6 +1239,11 @@
+ 
+     rc_debug (RC_DEBUG_LEVEL_DEBUG, "Got %d channels (all targets)", N);
+ 
++    rc_world_foreach_channel (RC_WORLD (remote),
++                              world_check_channel_cb,
++                              channel_data.channels);
++    g_list_free (channel_data.channels);
++    
+     if (N < 0) {
+         /* Don't cache invalid data */
+         rcd_cache_entry_invalidate (entry);
+@@ -1322,9 +1498,10 @@
+         }
+     }
+ 
+-    if (remote->channels_url)
++    if (remote->channels_url) {
+         pending = rcd_world_remote_fetch_channels (remote, local, &tmp_error);
+-
++    }
++        
+     if (tmp_error) {
+         g_error_free (tmp_error);
+         return NULL;

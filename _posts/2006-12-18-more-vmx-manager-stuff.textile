@@ -1,0 +1,11 @@
+---
+layout: post
+title: "more vmx-manager stuff"
+---
+
+       		
+<p>I&#8217;m still working hard on <a href="http://www.snorp.net/log/2006/12/08/im-in-ur-virtual-machines-managing-them/">vmx-manager</a>, and I think it&#8217;s coming along pretty well.  I spent a good chunk of last week writing my own code for creating VMware Virtual Disks.  The <span class="caps">VMDK</span> <a href="http://www.vmware.com/interfaces/vmdk.html">specification</a> is pretty straightforward, but implementing it proved to be more tedious than I expected (&#8220;the devil is in the details&#8221;).  The end result seems to work pretty well, so now vmx-manager can create disks without relying on qemu or vmware-vdiskmanager.  Soon I might try to add a couple more features in this area, such as the ability to grow an existing disk (which in theory should be easy &#8212; just add extents).  I&#8217;ve made a <a href="http://www.snorp.net/files/screencasts/vmx-manager-demo.ogg">screencast</a> of the app as I put it through its paces, and you can find up-to-date screenshots <a href="http://www.snorp.net/files/screenshots/vmx-manager">here</a>.</p>
+<p>When I was writing the flat extent support (used for pre-allocated disks), I wanted to do something different than just writing a bunch of zeros out to a file (which is slow).  It seemed to me that it should be possible to ask the filesystem to quickly give me a file of a specific size.  I didn&#8217;t care what was in it, so it should be able to just find a bunch of unused sectors (or whatever) and mark them as mine, right?  I was able to find no such feature in ext3 or Linux in general, and I guess the reason is probably due to security concerns.  You obviously don&#8217;t want to give people a way to read deleted data.  It would be nice, though, if the fs could mark the data in such a way that it would be zeros until you write to it.  Maybe that&#8217;s just too expensive, I don&#8217;t know.  Anyway, if anyone knows how I could accomplish such a thing, please let me&nbsp;know.</p>
+
+
+   		

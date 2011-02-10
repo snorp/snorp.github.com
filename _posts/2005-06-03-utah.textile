@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Utah"
+---
+
+       		
+<p>I was in Utah last week for work.  It was good to see people, put some faces with names, etc.  Working from home has benefits, but it&#8217;s nice to do things in person sometimes.  I was in the <a href="http://developer.novell.com/devres/slab/">SuperLab</a>, testing <a href="http://www.novell.com/products/zenworks">ZENworks</a> (of course).  It was pretty cool, and I&#8217;m quite sure I&#8217;ve never seen more computers in a single place before.<br />
+<div align="center"><a href="http://www.snorp.net/files/photos/superlab.jpg"><img src="http://www.snorp.net/files/photos/superlab-thumb.jpg" style="border:none"/></a><br />
+<br><i>Novell SuperLab: one of a bajillion rows</i></div><br />
+Haven&#8217;t done any hacking on Muine lately.  Partially, because it won&#8217;t even run for me currently (some kind of lame gtk-sharp exception).  One thing I was thinking of doing, is resurrecting fer&#8217;s CD burning plugin.  I don&#8217;t usually take the iPod with me in the car on short trips, and I&#8217;ve wanted an easy way to burn stuff on a CD to use&nbsp;there.</p>
+<p>Enjoyed reading <span class="caps">GUADEC</span>-goers blogs.  Maybe one of these days I&#8217;ll be able to go.  If there&#8217;s another Boston summit, I should definitely try to make it to&nbsp;that.</p>
+
+
+   		

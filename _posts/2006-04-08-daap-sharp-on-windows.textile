@@ -1,0 +1,11 @@
+---
+layout: post
+title: "daap-sharp on Windows"
+---
+
+       		
+<p>I rolled a new release of <a href="http://www.snorp.net/log/?page_id=61">daap-sharp</a> tonight, with the main new benefit being that it now runs on Windows.  After <a href="http://www.abock.org/">Aaron</a> added Bonjour bindings, there wasn&#8217;t much stopping this from happening, so I fixed up the last couple of bugs.  I also made an ultra-cheesy test <a href="http://www.snorp.net/files/DAAPBrowser.exe">application</a> using Windows Forms:<br /><br />
+<div style="text-align:center"><img src="http://www.snorp.net/files/screenshots/daap-browser.jpg"/></div></p>
+
+
+   		

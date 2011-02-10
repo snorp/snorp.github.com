@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Yet More Wireless Applet Stuff"
+---
+
+       		
+<p>So, more wireless applet hacking today.  This time I fixed the build so it installs all the nifty pam magic.  Patches for all.  Apply <a href="http://www.snorp.net/files/patches/iwlib_jwillcox_scanning_v2.diff">this</a> patch to the latest wireless-tools development <a href="http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.27.pre9.tar.gz">version</a>, and unpack/apply <a href="http://www.snorp.net/files/patches/gnome_applets_jwillcox_wireless_switching_v1.tar.gz">this</a> one to gnome-applets <span class="caps">CVS</span>.  You&#8217;ll want to pass something like &#8212;sysconfdir=/etc to configure to get the pam stuff&nbsp;working.</p>
+<p><b>[Disclaimer]</b> I have only tested this on my own machine, which is running Fedora Core 1.  Other RedHat systems will probably work.  Basically, &#8220;<span class="caps">ESSID</span>=&lt;essid&gt; /sbin/ifup &lt;interface&gt;&#8221; needs to work, and you need&nbsp;consolehelper.</p>
+
+
+   		

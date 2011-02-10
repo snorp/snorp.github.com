@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Tangerine with Cocoa"
+---
+
+       		
+<p>Last weekend I spent some time porting <a href="http://www.snorp.net/log/tangerine">Tangerine</a> to Mac OS X.  The actual music sharing daemon worked fine with no changes, except I had to modify the path to the xml database for the iTunes plugin.  With that out of the way, I set out to create a native configuration <span class="caps">GUI</span> for it.  I had never used Obj-C or Cocoa or anything like that before, so I thought it would be fun to learn all of that stuff.  The Apple developer tools are pretty nice, and it wasn&#8217;t long before I had a semi-working preference pane.  The last couple of nights I polished it up to the point where I think it&#8217;s releasable, so here we&nbsp;go.</p>
+<div align="center"><img src="http://www.snorp.net/files/screenshots/tangerine-preferences-mac.png"/><br/><i>Tangerine&#8217;s Preference Pane on Mac OS X</i></div>
+<p>I&#8217;m not an expert on Apple interfaces, so I&#8217;d welcome input from someone who has experience with this.  It looks ok to me, though.  The &#8220;automatic&#8221; selection uses Spotlight to find all of your music and share it.  This is the same thing it does on Linux and Windows with Beagle and Google Desktop,&nbsp;respectively.</p>
+<p><strong><a href="http://www.snorp.net/files/tangerine/tangerine-0.3.0.dmg">Download&nbsp;Now!</a></strong></p>
+<p>My next post will be about my experience porting this app to Windows and Mac OS X, what they have that&#8217;s better/worse than Linux,&nbsp;etc.</p>
+<p><b>Update:</b> To use Tangerine you&#8217;ll need the Mono framework installed.  Get it <a href="http://www.mono-project.com/Downloads">here</a>.</p>
+
+
+   		

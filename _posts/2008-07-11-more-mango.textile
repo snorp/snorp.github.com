@@ -1,0 +1,11 @@
+---
+layout: post
+title: "More Mango"
+---
+
+       		
+<p>A while back I <a href="http://www.snorp.net/log/2008/02/26/mango-lassi/">posted</a> about <a href="http://0pointer.de/blog/projects/mango-lassi.html">Mango Lassi</a> and how awesome it was compared to synergy.  I still think it is awesome, but every now and then something would freak it out and cause the association between machines to drop.  I&#8217;ve fixed at least one cause of that problem now and published it in a git repo here: <a href="http://www.snorp.net/git/mango-lassi.git/">http://www.snorp.net/git/mango-lassi.git/</a></p>
+<p><span class="caps">BTW</span>, thanks for all of the great comments on the <a href="http://www.snorp.net/log/2008/07/04/nas-for-home/"><span class="caps">NAS</span></a> situation.  I&#8217;m looking at several of the options mentioned there along with a couple others.  I think I&#8217;ve ruled out rolling my own, though, as I don&#8217;t want yet another linux box to&nbsp;maintain.</p>
+
+
+   		

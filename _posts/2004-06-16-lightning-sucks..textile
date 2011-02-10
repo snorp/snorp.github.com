@@ -1,0 +1,17 @@
+---
+layout: post
+title: "Lightning sucks."
+---
+
+       		
+<p>Yesterday a thunderstorm passed through.  There was lightning.  Apparently some of it got close enough to fry some of my electrical things.  Specifically, the stereo, gamecube, and wifi AP.  Also, the laptop&#8217;s AC adapter was destroyed (but I have a new one thanks to <span class="caps">IBM</span> and all is&nbsp;well).</p>
+<p>So today at lunch I went and bought a new wifi switch.  I picked up a Linksys WRT54G, the one that has open firmware.  So far it rules.  No, I mean it totally rules.  You should run, not walk, to the nearest Best Buy (or whatever).  The open firmware lets you do local dns stuff.  So you can have actual dns names for the machines on your <span class="caps">LAN</span>.  This is the feature I have wanted most in these sort of boxes, and none of them appear to have it (except for this alternative firmware, from <a href="http://www.sveasoft.com">sveasoft</a>).  Also supposedly the sveasoft firmware has other neat stuff like a <span class="caps">VPN</span>&nbsp;server.</p>
+<p><b>Red&nbsp;Carpet</b></p>
+<p>Also I&#8217;ve worked the rest of the bugs out of the yum <a href="http://www.snorp.net/files/patches/rcd_jwillcox_yum_and_speedup_v2.diff">support</a> for rcd.  I think it&#8217;s pretty solid now.  It even avoids downloading the headers you already have (much like yum itself does).  I should commit it soon.  I know Shaver and Vlad have been using rcd on FC2, so it might be nice to get some of the yum repos that don&#8217;t also have apt&nbsp;ones.</p>
+<p>I&#8217;ve been thinking about writing a tool that creates an open carpet repo out of a yum or apt one.  That way apt/yum repo maintainers can just run this magical script without having to do the (relatively painless) process of setting up an open-carpet repo &#8216;from scratch&#8217;.  I wonder if something like this would help open-carpet&nbsp;adoption?</p>
+<p>Oh, I forgot to blog about this earlier, but anyone that has seen the &#8220;rcd eats 99% of my cpu&#8221; bug will be happy to know that the latest release fixes it.  If you use rcd and see this bug in the latest release <b>please <a href="http://bugzilla.ximian.com">report</a> it</b>.  I promise I will hunt it down and kill it dead.  Either that or I will get smart people like Tambet or <a href="http://primates.ximian.com/~danw/">Dan Winship</a> to do it for me (who fixed it in the first&nbsp;place).</p>
+<p><b><span class="caps">GNOME</span></b></p>
+<p>A long time ago (like a year or more) I worked on some code that allowed you to migrate windows from one display/screen to another.  Basically it was just some X message passing stuff that ended up calling gtk_window_set_screen().  I wrote a spec for it and posted it to wm-spec-list, but nobody really seemed that interested.  I&#8217;ve started working on it again, and I think I&#8217;ll give the spec/patch another go.  There is lots of badness in gtk+ with closing displays, and that sucks.  Also there doesn&#8217;t seem to be an async way of opening a display, so if you try to migrate a window to someplace that&#8217;s not listening on the right port or whatever, it blocks the <span class="caps">GUI</span>.</p>
+
+
+   		

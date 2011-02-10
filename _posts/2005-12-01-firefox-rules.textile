@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Firefox Rules"
+---
+
+       		
+<p>So Firefox 1.5 is out, sporting a new canvas tag.  Hopefully we will see all kinds of sweet innovative stuff using it.  Here is my&nbsp;contribution:</p>
+<p><iframe src="http://www.snorp.net/canvas-test.html" frameborder="0" width="300" height="50" scrolling="no"></iframe></p>
+<p><b>Update</b>: I also changed my little bugzilla greasemonkey script to work with Firefox 1.5.  You can get that at the usual place, <a href="http://www.snorp.net/files/novell-bugzilla.user.js">here</a>.</p>
+
+
+   		

@@ -1,0 +1,16 @@
+---
+layout: post
+title: "titles suck"
+---
+
+       		
+<p>Yeah, so, it took me a while to get the metaWeblog support working with Seth&#8217;s blogger applet (as some of the planet gnome readers may have noticed).  Seems to be working well now&nbsp;though.</p><p>
+<p></p><p><br />
+<span class="caps">GNOME</span> 2.4 is coming out soon.  Best <span class="caps">GNOME</span> Ever.  I don&#8217;t think I did anything, though, except fix a couple bugs.  School really had me busy during the&nbsp;end&#8230;</p><p></p>
+<p></p><p><br />
+PyGTK 2.0 was released!  This is great news!  I have some libwnck bindings laying around that I&#8217;m going to try to get in now.  I originally made them so I could easily test the window migration extensions to gtk/wnck I was working on.  That kind of flopped though (I am lazy, plus the community did not seem very interested in&nbsp;it).</p><p></p>
+<p></p><p><br />
+Someone filed this totally sweet bug <a href="http://bugzilla.gnome.org/show_bug.cgi?id=121455">report</a> against the recent-files stuff the other&nbsp;day.</p></p>
+
+
+   		

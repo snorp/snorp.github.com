@@ -1,0 +1,10 @@
+---
+layout: post
+title: "iTunes 7"
+---
+
+       		
+<p><a href="http://www.apple.com/itunes/">iTunes 7</a> was announced today, which means more <a href="http://www.snorp.net/log/ipod-sharp">ipod-sharp</a> breakage.  It doesn&#8217;t look like anything really changed except the database version, so I&#8217;ve bumped that and released 0.6.1.  The music sharing stuff in iTunes hasn&#8217;t changed for ages, so <a href="http://www.snorp.net/log/tangerine">Tangerine</a> still works&nbsp;fine.</p>
+
+
+   		

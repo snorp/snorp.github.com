@@ -1,0 +1,17 @@
+---
+layout: post
+title: "I'm in ur virtual machines, managing them"
+---
+
+       		
+<p>I&#8217;ve been working on an application recently which lets you create, configure, and run VMware virtual machines (it just forks out to VMware Player for the running part).  It&#8217;s nearing usefulness now, so I thought I&#8217;d post some screenshots and&nbsp;stuff.</p>
+<div align="center">
+<p><img src="http://www.snorp.net/files/screenshots/vmx-manager-main.png"/><br />
+<i>The main&nbsp;window</i></p>
+<p><img src="http://www.snorp.net/files/screenshots/vmx-manager-config.png"/><br />
+<i>The configuration&nbsp;window</i></p>
+</div>
+<p>You need either qemu or vmware-vdiskmanager installed in order to create new hard disks, and it probably fails pretty badly currently if you don&#8217;t.  If I get a chance, I may write my own stuff to create the hard disks (the format is a public spec, woo!).  Anyway, you can get it from the <code>vmx-manager</code> module in gnome <span class="caps">CVS</span>.</p>
+
+
+   		

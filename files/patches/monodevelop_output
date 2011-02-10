@@ -1,0 +1,27 @@
+Reading /home/snorp/.config/MonoDevelop/CodeCompletionData/mscorlib_1.0.5000.0_b77a5c561934e089.pidb
+Creating DefaultWorkbench
+Loading error, please reinstall :
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.DllNotFoundException: gnomevfs-2
+in <0x00053> (wrapper managed-to-native) MonoDevelop.Gui.Utils.Vfs:gnome_vfs_init ()
+in [0x00000] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Libraries/MonoDevelop.Gui.Utils/VFS/Vfs.cs:71) MonoDevelop.Gui.Utils.Vfs:get_Initialized ()
+in [0x00055] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:55) MonoDevelop.Gui.Widgets.FileBrowser:.ctor ()
+in [0x0000c] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Main/Base/Gui/Pads/FileScout/FileScout.cs:41) MonoDevelop.Gui.Pads.FileScout:.ctor ()
+in (unmanaged) (wrapper managed-to-native) System.Reflection.MonoCMethod:InternalInvoke (object,object[])
+in <0x00004> (wrapper managed-to-native) System.Reflection.MonoCMethod:InternalInvoke (object,object[])
+in [0x00033] (at /cvs/mcs/class/corlib/System.Reflection/MonoMethod.cs:257) System.Reflection.MonoCMethod:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+--- End of inner exception stack trace ---
+
+in [0x00052] (at /cvs/mcs/class/corlib/System.Reflection/MonoMethod.cs:261) System.Reflection.MonoCMethod:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+in [0x00007] (at /cvs/mcs/class/corlib/System.Reflection/MonoMethod.cs:266) System.Reflection.MonoCMethod:Invoke (System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+in [0x00017] (at /cvs/mcs/class/corlib/System.Reflection/ConstructorInfo.cs:36) System.Reflection.ConstructorInfo:Invoke (object[])
+in [0x00074] (at /cvs/mcs/class/corlib/System/Activator.cs:229) System.Activator:CreateInstance (System.Type,bool)
+in [0x00002] (at /cvs/mcs/class/corlib/System/Activator.cs:125) System.Activator:CreateInstance (System.Type)
+in [0x00013] (at /cvs/mcs/class/corlib/System.Reflection/Assembly.cs:444) System.Reflection.Assembly:CreateInstance (string,bool)
+in [0x00003] (at /cvs/mcs/class/corlib/System.Reflection/Assembly.cs:435) System.Reflection.Assembly:CreateInstance (string)
+in [0x00035] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Libraries/MonoDevelop.Core/AddIns/AddIn.cs:432) MonoDevelop.Core.AddIns.AddIn:CreateObject (string)
+in [0x0000c] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Libraries/MonoDevelop.Core/AddIns/Codons/ClassCodon.cs:27) MonoDevelop.Core.AddIns.Codons.ClassCodon:BuildItem (object,System.Collections.ArrayList,MonoDevelop.Core.AddIns.Conditions.ConditionCollection)
+in [0x00058] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Libraries/MonoDevelop.Core/AddIns/DefaultAddInTreeNode.cs:180) MonoDevelop.Core.AddIns.DefaultAddInTreeNode:BuildChildItems (object)
+in [0x00010] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:667) MonoDevelop.Gui.DefaultWorkbench:UpdateViews (object,System.EventArgs)
+in [0x00015] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Main/Base/Commands/AutostartCommands.cs:42) MonoDevelop.Commands.InitializeWorkbenchCommand:Run ()
+in [0x001ed] (at /home/duncan/conf/mono-conf/monodevelop/BUILD/monodevelop-0.4/src/Main/StartUp/MonoDevelopMain.cs:115) MonoDevelop.SharpDevelopMain:Main (string[])
+

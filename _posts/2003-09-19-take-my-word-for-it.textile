@@ -1,0 +1,11 @@
+---
+layout: post
+title: "take my word for it"
+---
+
+       		
+<p>Do not, under any circumstances, see the movie &#8220;Cabin Fever&#8221;.  Worst.  Movie.&nbsp;Ever.</p><p>
+<p>If you&#8217;re feeling brave, you should totally check out the latest red carpet client.  It supports apt rpm repositories and multiple servers now.  It&#8217;s very sweet.  There is a fairly recent one in the &#8216;rcd-snaps&#8217; channel if you want to try&nbsp;it.</p></p>
+
+
+   		

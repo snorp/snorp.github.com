@@ -1,0 +1,11 @@
+---
+layout: post
+title: "vengeance is mine"
+---
+
+       		
+<p>If you have ever used the Novell <a href="http://bugzilla.novell.com">Bugzilla</a> you no doubt noticed that it likes to log you out after a short while.  Usually for me it&#8217;s at least two additional clicks after clicking on a bug link before I can actually see the bug.  It annoyed me enough tonight that I wrote a greasemonkey script to ease the pain.  You can get it <a href="http://www.snorp.net/files/novell-bugzilla.user.js">here</a>.  Just log in once manually after loading the script so it can store your user/pass, and it should do it for you after&nbsp;that.</p>
+<p><b>Update:</b> I just put a newer version of the script up.  It will log you in even if the page you&#8217;re trying to view is not locked out to anonymous users.  Also added some lame feedback so you know what it&#8217;s&nbsp;doing.</p>
+
+
+   		

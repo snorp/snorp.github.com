@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Slashdot looking for open proxies?"
+---
+
+       		
+<p>I saw the following somewhat-strange line in my web server logs&nbsp;today:</p>
+<p><code>
+216.34.181.45 - - [25/Aug/2008:10:23:51 -0500] "GET http://tech.slashdot.org/ok.txt HTTP/1.0" 401 523 "-" "libwww-perl/5.812"
+</code></p>
+<p>That web server is running on the IP of my home router.  The requesting IP appears to be a Slashdot machine.  My guess is that they are trying to find out who accesses their site through an open proxy.  But why?  Is there another reason they might send a request like that?  Do they ban proxies if they find&nbsp;one?</p>
+<p><strong><span class="caps">UPDATE</span>:</strong> Apparently, they do in fact ban open proxies (according to <a href="http://linux.slashdot.org/faq/com-mod.shtml">this</a>).  Supposedly a lot of comment spam comes from them.  I wonder if it would help blogs at all to do something&nbsp;similar?</p>
+
+
+   		

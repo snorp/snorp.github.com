@@ -1,0 +1,14 @@
+---
+layout: post
+title: "New Site"
+---
+
+       		
+<p>I have snorp.net now.  Hooray.  Other than having <a href="mailto:snorp@snorp.net">snorp@snorp.net</a> and this blog, I&#8217;m not sure why I really want my own domain.  I guess I&#8217;ll use the webspace for posting screenshots and stuff, like I did with the IU webspace.  Of course, I haven&#8217;t updated my blog on <a href="http://www.advogato.org/person/snorp">Advogato</a> forever so I&#8217;ll probably end up ignoring this one&nbsp;too.</p>
+<p>So, what&#8217;s been happening?  I graduated in May.  I&#8217;m pretty happy about that.  I even found a job (!).  I was able to land a 10 week contract job the week after I graduated.  After I accepted it, though, another job fell in my lap.  And not just any job, one at <a href="http://www.ximian.com">Ximian</a>!  I accepted it just when I was planning on leaving for California (the location of the contract job).  Luckily, the guy who hired me for the contract was really cool about it (he had told me before that if I found a permanent job, he would have no problem with me bailing).  I start at Ximian in a week or so, working on <a href="http://www.ximian.com/products/redcarpet">Red Carpet</a>.  Red Carpet is very cool, and I&#8217;m sure I&#8217;ll love working on it.  <span class="caps">WOO</span>!!</p>
+<p>In other news, I have been working on some code which lets users migrate windows to other screens or displays.  So, for instance, if you have an app running on another machine you could simply pull it to your current display.  A simpler usage might be to move a window between two screens on a non-xinerama multihead machine.  I think it&#8217;s pretty cool.  Nobody has said anything on xdg-list or wm-spec-list when I&#8217;ve posted about it, though, so maybe it&#8217;s not that cool?  Anyway.  I need to talk to Owen about it.  Maybe he&#8217;ll let me put it in&nbsp;gtk+.</p>
+<p>I finished the file monitoring system for the school project.  It works ok for polling, but the dnotify backend is pretty buggy.  If I can find some time to work on it, I think it may be ready in the <span class="caps">GNOME</span> 2.6 time&nbsp;frame.</p>
+<p>Haven&#8217;t done much <span class="caps">GNOME</span> hacking generally, which pretty much sucks.  I have been totally useless in the 2.4 cycle.  I did fix a couple nautilus bugs (Yes Dave, <b>2</b> bugs!), so that&#8217;s good I guess.  Still plenty of bug-fixing time to go, so maybe I&#8217;ll get my ass in gear one of these&nbsp;days.</p>
+
+
+   		

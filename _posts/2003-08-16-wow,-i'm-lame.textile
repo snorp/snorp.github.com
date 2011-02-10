@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Wow, I'm lame"
+---
+
+       		
+<p>A heckuvalot has happened since my last post, I suppose.  Notably, Novell acquired Ximian.  As <a href="http://primates.ximian.com/~dave/log">Dave</a> said, some people were able to access the intranet today (I was not one of them).  However, the org chart on the site shows me as reporting directly to the Vice Chairman of Novell.  I don&#8217;t think Dave will be calling me a dorkwad anymore (I demoted him once already&nbsp;today).</p>
+<p>I haven&#8217;t done any gnome hacking lately, and unfortunately I don&#8217;t see any happening in the near future.  Work is keeping me pretty busy.  Hopefully I&#8217;ll have some time after this development cycle&nbsp;ends.</p>
+<p>Had a great time in Boston while I was there.  In the conference call(s) today, I realized that I was able to put a face to nearly every voice I heard, which was a nice&nbsp;change.</p>
+<p>The Rio portable ogg <a href="http://www.digitalnetworksna.com/shop/_templates/item_main_Rio.asp?model=220&cat=53">player</a> which I&#8217;ve been salivating over for a while was finally anounced.  I ordered one immediately.  It&#8217;s going to kick <b>so much ass</b>.  I&#8217;m a little worried about linux integration, though.  Supposedly, the little bugger runs a webserver and has a java applet which you can use to transfer files to it.  While this would probably work, what I would really like is a way to mount the drive or use a gnome-vfs module.  The developers of the Karma are the same ones who made the empeg linux-based car mp3 player, so maybe they&#8217;ll be nice and release some code and/or&nbsp;specs.</p>
+
+
+   		

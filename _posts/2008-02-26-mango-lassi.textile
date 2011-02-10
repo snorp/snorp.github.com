@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Mango Lassi"
+---
+
+       		
+<p>The other day I looked into switching away from synergy to <a href="http://0pointer.de/blog/projects/mango-lassi.html">Mango Lassi</a>.  I only use it between two machines, so I figured my use case was simple enough that it should work at this stage.  I was not disappointed.  I was getting some very strange behavior with synergy and vmware, and Mango Lassi has none of that.  Plus it gives an <a href="http://www.snorp.net/files/screenshots/mango-lassi-osd.png"><span class="caps">OSD</span></a> telling you which machine the mouse/keyboard are being used on, which is a nice&nbsp;perk.</p>
+<p>Anyway, I was so happy with it that I made packages for openSUSE.  You can get it from my build service <a href="http://download.opensuse.org/repositories/home:/snorp/openSUSE_10.3/">repository</a>.</p>
+
+
+   		

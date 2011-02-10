@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Return of The Carpet"
+---
+
+       		
+<p>Red Carpet, that is.  Yes, <a href="http://en.wikipedia.org/wiki/Red_Carpet">that</a> Red Carpet.  I&#8217;ve taken some time lately to give some love to our old friends rcd and rug (the original rug, not the rewritten one).  First I got everything building on a modern distro (openSUSE 10.2).  This took more effort than I thought it would, but eventually things worked well.  After that, I set out to make rcd more usable with yum services.  Here is a list of the main changes:<br />
+<ul><br />
+<li><b>Add native yum support</b>.  I removed the &#8216;helix&#8217; service support and replaced it with something that understands yum metadata.  This means you can just do &#8216;rug sa repo_url name&#8217; for any yum service.  I used the excellent yum parser that Tambet wrote for the libredcarpet backend of zmd to accomplish&nbsp;this.</li><br />
+<li><b>Remove channel subscriptions</b>.  Since yum services don&#8217;t provide multiple channels, subscriptions aren&#8217;t really necessary.  They have been replaced with the ability to disable a&nbsp;service.</li><br />
+<li><b>Add sleep ability</b>.  One of the main complaints against rcd was that it used too much memory.  This was mostly because over time the heap would become fragmented.  The &#8216;sleep&#8217; feature avoids this by running the main rcd daemon only when necessary.  After a period of inactivity (3 minutes by default), the main daemon replaces itself with a smaller daemon.  This smaller daemon simply waits until a request comes in and launches the full daemon to&nbsp;respond.</li></p>
+</ul>
+<p>With the above changes, rcd is once again a joy to use.  I would like to get the <span class="caps">GUI</span> working again, but there is some kind of threading problem preventing it from running.  I would also like to add ftp support, but that is not a top&nbsp;priority.</p>
+<p>I know there are probably <span class="caps">SUSE</span> users reading this asking &#8220;Ok, sounds fine, but is it <b>fast</b>?&#8221;.  While it may not be the fastest thing out there, I think you will be surprised at the results (I was).  Here are a few simple benchmarks from normal usage&nbsp;scenarios:</p>
+<p>First, lets look at the number of services I currently have added:<br />
+<blockquote><pre><br />
+% rug&nbsp;sl</p>
+<ol>
+    <li>| Service <span class="caps">URI</span>                                           | Name       <br />
+<del>&#8212;+</del>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+1  | http://go-mono.com/download-stable/suse-102-i586?r&#8230; | mono       <br />
+2  | http://software.opensuse.org/download/<span class="caps">FATE</span>/openSUS&#8230; | fate       <br />
+3  | http://ftp.suse.com/pub/suse/update/10.2/?name=upd&#8230; | updates    <br />
+4  | http://download.opensuse.org/distribution/10.2/rep&#8230; | suse-nonoss<br />
+5  | http://download.opensuse.org/distribution/10.2/rep&#8230; | suse-oss   <br />
+6  | http://packman.inode.at/suse/10.2?remote_only=1;na&#8230; | packman    <br />
+7  | http://software.opensuse.org/download/home:/cybero&#8230; | cyborg     <br />
+8  | http://software.opensuse.org/download/X11:/<span class="caps">XGL</span>/ope&#8230; | xgl        <br />
+9  | http://software.opensuse.org/download/Beagle/openS&#8230; | beagle     <br />
+10 | http://software.opensuse.org/download/games:/actio&#8230; | games      <br />
+11 | http://software.opensuse.org/download/Virtualizati&#8230; | virt       <br />
+12 | http://software.opensuse.org/download/home:/kraxel&#8230; | kvm<br />
+</pre></blockquote><br />
+So 12 services, and the package count is almost 21000.  22500 if you also count the ones in the rpm database.  How long does it take to load all of&nbsp;those?</li>
+</ol>
+<p>Cold filesystem cache, daemon is sleeping:<br />
+<blockquote><pre>% time rug ping &gt; /dev/null<br />
+rug ping  0.17s user 0.02s system 1% cpu 13.735&nbsp;total</p>
+<p></blockquote></pre><br />
+14 seconds to respond isn&#8217;t terrible, considering the cold filesystem cache.  Now that the kernel has it cached, though, how long does it&nbsp;take?</p>
+<p>Warm filesystem cache, daemon is sleeping:<br />
+&lt;blockquote<pre>% time rug ping &gt;/dev/null<br />
+rug ping &gt; /dev/null  0.14s user 0.02s system 3% cpu 4.465 total<br />
+</pre></blockquote><br />
+4.5, not bad.  Definitely in the tolerable range, I&#8217;d say.  Of course after the daemon is awake, commands respond immediately.  That is maybe the only good thing about rcd being a daemon &#8212; subsequent commands are instant, where other tools (yum, smart, etc) have to load the package metadata again.  Memory usage after rcd wakes up is about 28MB, so that is not too bad either (it is a little over 1MB when&nbsp;sleeping).</p>
+<p>Packages for recent <span class="caps">SUSE</span> distros are available in the <a href="http://software.opensuse.org/download/home:/snorp/">build service</a>.  It has had a hard time keeping up recently, though, so you may run into a problem or two with rug.  Sources can be found in gnome svn in the <a href="http://svn.gnome.org/viewcvs/rcd/branches/yummy/">yummy branch</a> of the various modules (rcd, rug,&nbsp;libredcarpet).</p>
+<p>Also, yes, I am sick sick&nbsp;person.</p>
+
+
+   		

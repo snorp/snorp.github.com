@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Yeah, I'm a Rails fanboy now"
+---
+
+       		
+<p>A lot of my day job now involves working with <a href="http://rubyonrails.org">Ruby on Rails</a>.  At first I wasn&#8217;t sure how much I would like Rails or ruby, given that I had been doing a lot of C#/C/whatever desktop work before.  Not surprisingly, though, I&#8217;ve become quite addicted.  The test-driven nature of development is a welcome change &#8212; most desktop apps I worked on didn&#8217;t even have tests.  The Rails community has done a great job of banging automated testing into people&#8217;s heads.  Almost every tutorial, book, or random blog post I&#8217;ve seen emphasizes the importance of good automated tests.  Hopefully it has helped decrease the instances of &#8216;snorpage&#8217;, but perhaps my co-workers would disagree&nbsp;:)</p>
+<p>Anyway, I love Rails so much that I&#8217;ve converted my blog from <a href="http://www.wordpress.org">Wordpress</a> to <a href="http://www.enkiblog.com">Enki</a>.  Enki is more of a create-your-own-blog construction kit than a turn-key solution like Wordpress.  That was one of the main reasons I chose it over <a href="http://typosphere.org">Typo</a> or <a href="http://mephistoblog.com">Mephisto</a> &#8212; I wanted to be able to easily hack on&nbsp;it.</p>
+<p>I wrote a quick and dirty script to help me import the Wordpress posts into Enki.  Any fellow Enki hackers can grab it <a href="http://github.com/snorp/enki/raw/0a3a9692f6ccc849a42a1c979641bcb7b386d6ba/import-wp">here</a>.</p>
+
+
+   		

@@ -1,0 +1,182 @@
+Index: src/rc-channel.h
+===================================================================
+RCS file: /cvs/gnome/libredcarpet/src/rc-channel.h,v
+retrieving revision 1.47
+diff -u -r1.47 rc-channel.h
+--- src/rc-channel.h	16 Sep 2003 21:21:59 -0000	1.47
++++ src/rc-channel.h	27 May 2004 22:37:16 -0000
+@@ -41,7 +41,8 @@
+     RC_CHANNEL_TYPE_UNKNOWN = -1,
+     RC_CHANNEL_TYPE_HELIX,
+     RC_CHANNEL_TYPE_DEBIAN,
+-    RC_CHANNEL_TYPE_APTRPM
++    RC_CHANNEL_TYPE_APTRPM,
++    RC_CHANNEL_TYPE_YUM
+ };
+ 
+ int rc_channel_priority_parse (const char *);
+Index: src/rc-extract-channels.c
+===================================================================
+RCS file: /cvs/gnome/libredcarpet/src/rc-extract-channels.c,v
+retrieving revision 1.6
+diff -u -r1.6 rc-extract-channels.c
+--- src/rc-extract-channels.c	18 May 2004 14:59:37 -0000	1.6
++++ src/rc-extract-channels.c	27 May 2004 22:37:16 -0000
+@@ -106,6 +106,8 @@
+                 type = RC_CHANNEL_TYPE_DEBIAN;
+             else if (g_strcasecmp (tmp, "aptrpm") == 0)
+                 type = RC_CHANNEL_TYPE_APTRPM;
++            else if (g_strcasecmp (tmp, "yum") == 0)
++                type = RC_CHANNEL_TYPE_YUM;
+             else
+                 type = RC_CHANNEL_TYPE_UNKNOWN;
+             g_free (tmp);
+Index: src/rc-extract-packages.c
+===================================================================
+RCS file: /cvs/gnome/libredcarpet/src/rc-extract-packages.c,v
+retrieving revision 1.8
+diff -u -r1.8 rc-extract-packages.c
+--- src/rc-extract-packages.c	11 Nov 2003 21:21:57 -0000	1.8
++++ src/rc-extract-packages.c	27 May 2004 22:37:16 -0000
+@@ -369,6 +369,61 @@
+ 
+ /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
+ 
++RCPackage *
++rc_extract_yum_package (const guint8 *data, int len,
++                        RCPackman *packman, char *url)
++{
++#ifndef  ENABLE_RPM
++    /* We can't support yum without rpm support */
++    rc_debug (RC_DEBUG_LEVEL_ERROR, "RPM support is not enabled");
++    return -1;
++#else
++    RCRpmman *rpmman;
++    Header h;
++    RCPackage *p;
++    RCPackageUpdate *pu;
++    char *tmpc;
++    int typ, n;
++
++    g_return_val_if_fail (packman != NULL, NULL);
++
++    if (!g_type_is_a (G_TYPE_FROM_INSTANCE (packman), RC_TYPE_RPMMAN)) {
++        rc_debug (RC_DEBUG_LEVEL_ERROR,
++                  "yum support is not available on non-RPM systems");
++        return NULL;
++    }
++
++    rpmman = RC_RPMMAN (packman);
++    
++    h = rpmman->headerLoad (data);
++
++    if (h == NULL) {
++        rc_debug (RC_DEBUG_LEVEL_ERROR,
++                  "Unable to get header from headerCopyLoad!");
++        return NULL;
++    }
++
++    rpmman->headerGetEntry (h, RPMTAG_ARCH, &typ, (void **) &tmpc, &n);
++
++    p = rc_package_new ();
++
++    rc_rpmman_read_header (rpmman, h, p);
++    rc_rpmman_depends_fill (rpmman, h, p);
++
++    pu = rc_package_update_new ();
++    rc_package_spec_copy (RC_PACKAGE_SPEC (pu), RC_PACKAGE_SPEC (p));
++    pu->importance = RC_IMPORTANCE_SUGGESTED;
++    pu->description = g_strdup ("No information available.");
++    pu->package_url = url;
++    
++    p->history = g_slist_append (p->history, pu);
++
++    rpmman->headerFree (h);
++
++    return p;
++#endif  
++}
++
+ gint
+ rc_extract_packages_from_aptrpm_buffer (const guint8 *data, int len,
+                                         RCPackman *packman,
+Index: src/rc-extract-packages.h
+===================================================================
+RCS file: /cvs/gnome/libredcarpet/src/rc-extract-packages.h,v
+retrieving revision 1.5
+diff -u -r1.5 rc-extract-packages.h
+--- src/rc-extract-packages.h	3 Oct 2003 19:46:29 -0000	1.5
++++ src/rc-extract-packages.h	27 May 2004 22:37:16 -0000
+@@ -57,6 +57,10 @@
+                                              RCPackageFn callback,
+                                              gpointer user_data);
+ 
++RCPackage * rc_extract_yum_package          (const guint8 *data, int len,
++                                             RCPackman *packman,
++                                             char *url);
++
+ gint rc_extract_packages_from_aptrpm_buffer (const guint8 *data, int len,
+                                              RCPackman *packman,
+                                              RCChannel *channel,
+Index: src/rc-world-store.c
+===================================================================
+RCS file: /cvs/gnome/libredcarpet/src/rc-world-store.c,v
+retrieving revision 1.7
+diff -u -r1.7 rc-world-store.c
+--- src/rc-world-store.c	31 Oct 2003 02:37:20 -0000	1.7
++++ src/rc-world-store.c	27 May 2004 22:37:16 -0000
+@@ -198,12 +198,54 @@
+ 
+ /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
+ 
++typedef struct {
++    RCWorld *old_world;
++    RCWorld *new_world;
++} DupInfo;
++
++static gboolean
++package_dup_fn (RCPackage *package,
++                gpointer user_data)
++{
++    DupInfo *info = user_data;
++    rc_world_store_add_package (RC_WORLD_STORE (info->new_world), package);
++
++    return TRUE;
++}
++
++static gboolean
++channel_dup_fn (RCChannel *channel,
++                gpointer user_data)
++{
++    DupInfo *info = user_data;
++
++    rc_world_store_add_channel (RC_WORLD_STORE (info->new_world), channel);
++    rc_world_foreach_package (info->old_world, channel,
++                              package_dup_fn,
++                              info);
++
++    return TRUE;
++}
++
+ static RCWorld *
+ rc_world_store_dup_fn (RCWorld *old_world)
+ {
+     RCWorld *new_world;
++    DupInfo info;
++    GSList *l;
+ 
+     new_world = g_object_new (G_TYPE_FROM_INSTANCE (old_world), NULL);
++
++    info.old_world = old_world;
++    info.new_world = new_world;
++    
++    rc_world_foreach_channel (old_world,
++                              channel_dup_fn,
++                              &info);
++    for (l = RC_WORLD_STORE (old_world)->locks; l; l = l->next) {
++        rc_world_store_add_lock (RC_WORLD_STORE (new_world),
++                                 (RCPackageMatch *)l->data);
++    }    
+ 
+     return new_world;
+ }

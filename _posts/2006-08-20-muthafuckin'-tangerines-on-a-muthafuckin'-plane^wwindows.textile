@@ -1,0 +1,16 @@
+---
+layout: post
+title: "muthafuckin' tangerines on a muthafuckin' plane^Wwindows"
+---
+
+       		
+<p>This weekend I spent some more time making <a href="http://www.snorp.net/log/tangerine">Tangerine</a> work on Windows.  I built Bonjour from scratch so I could distribute the binaries, and polished up the Tangerine installer as well.  I gave it a good deal of testing, but there might be something I missed still.  The Windows version includes a plugin for finding songs automatically through <a href="http://desktop.google.com/index.html">Google Desktop</a>.</p>
+<div align="center">
+<p><img src="http://www.snorp.net/files/screenshots/tangerine-prefs-win32-new.png"/><br /><br />
+<i>The preferences window for Tangerine (under Windows)</i></div><br /></p>
+<p><strong><a href="http://www.snorp.net/files/tangerine/TangerineSetup-0.2.6.3.exe">Download&nbsp;Now!</a></strong></p>
+<p><strong>Update:</strong> I just put up a new version which fixes a bunch of issues I found.  It also adds the missing features to the config window and hopefully makes it look a little nicer.  Updated screenshot&nbsp;above.</p>
+<p><strong>Update 2:</strong> Another updated version up with more bug fixes.  I don&#8217;t have a bug tracker set up, but if you guys hit any problems just email me (<a href="mailto:snorp@snorp.net">snorp@snorp.net</a>).</p>
+
+
+   		

@@ -1,0 +1,10 @@
+---
+layout: post
+title: "GNOME: 1, Slashdot: 0"
+---
+
+       		
+<p>Recently, <a href="http://www.perkypants.org/blog">Jeff</a> asked the <a href="http://www.slashdot.org">Slashdot</a> guys to stop using GNOME&#8217;s 700 year old <a href="http://images.slashdot.org/topics/topicgnome.gif">logo</a> in favor of the <a href="http://live.gnome.org/LogoGuidelines">new one</a>.  They have not changed it.  I have a <a href="http://www.snorp.net/slashdot-gnome.user.js">solution</a>.</p>
+
+
+   		

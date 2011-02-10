@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Fun with Studio"
+---
+
+       		
+<p>I&#8217;ve been working on a new project now for a while called <a href="http://susestudio.com"><span class="caps">SUSE</span> Studio</a>.  Essentially it is a web interface which allows you to build your own customized version of <span class="caps">SUSE</span>.  You can select packages, do some configuration, and even add your own&nbsp;branding.</p>
+<p>I created a media center appliance to see how hard it would be.  The appliance is based on <a href="http://www.opensuse.org">openSUSE</a> 11.1, and boots right into the excellent <a href="http://elisa.fluendo.com/">Elisa Media Center</a>.  You can download the image <a href="http://snorp.net.nyud.net/files/Elisa_Media_Center-0.0.1.oem.tar.gz">here</a>.  The tarball contains one file, which you can &#8216;dd&#8217; to a <span class="caps">USB</span> storage device.  We&#8217;re working on writing a small application to make this part&nbsp;easier.</p>
+<p>On the first boot it will do some one-time setup like repartition and resize the disk, install <a href="http://www.nvidia.com"><span class="caps">NVIDIA</span></a> or <a href="http://ati.amd.com"><span class="caps">ATI</span></a> video drivers (if appropriate), and setup&nbsp;X.</p>
+<p><a href="http://snorp.net.nyud.net/files/Elisa_Media_Center-0.0.1.oem.tar.gz"><img src="http://susestudio.com/images/built-with-web.png"></a><br />
+<a href="http://snorp.net.nyud.net/files/Elisa_Media_Center-0.0.1.oem.tar.gz">Download Elisa Media Center&nbsp;Appliance</a></p>
+
+
+   		

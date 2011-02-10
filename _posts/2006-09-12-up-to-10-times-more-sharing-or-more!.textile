@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Up to 10 times more sharing or more!"
+---
+
+       		
+<p>I released a new version of <a href="http://www.snorp.net/log/tangerine">Tangerine</a> tonight.  The biggest change is that you can now share the songs stored in your music player&#8217;s collection.  So if you add some songs to your library in <a href="http://www.banshee-project.org">Banshee</a>, they will automatically be shared by Tangerine.  Rhythmbox and Amarok are also supported.<br />
+<div align="center"><img src="http://www.snorp.net/files/screenshots/tangerine-providers.png"/><br/><br />
+<i>The config dialog allows you to select a music player</i></div></p>
+
+
+   		

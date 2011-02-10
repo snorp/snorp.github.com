@@ -1,0 +1,11 @@
+---
+layout: post
+title: "life.start()"
+---
+
+       		
+<p>I moved into my new apartment yesterday.  It was a fairly painless experience all in all.  I don&#8217;t have any furniture yet (it&#8217;s coming this weekend), so that kind of sucks.  Sleeping on the floor last night especially&nbsp;sucked.</p>
+<p>Today was officially my first day working for Ximian.  It went pretty well I think.  Hopefully, I&#8217;ll be able to get up to speed quickly and start making useful contributions soon.  I was able to get a mostly working development version of <span class="caps">RCE</span> on my machine today, which was about the only semi-productive thing I did.  It&#8217;s clear I have a lot to learn, but I&#8217;m looking forward to it.  Also, my first trip to Boston was arranged today.  I&#8217;m really looking forward to that too.  It&#8217;ll be totally cool meeting all the [ex-]gnomies and hopefully getting a good handle on my&nbsp;job.</p>
+
+
+   		

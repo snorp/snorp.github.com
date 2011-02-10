@@ -1,0 +1,16 @@
+---
+layout: post
+title: "FUD"
+---
+
+       		
+<p>Apparently Red Hat&#8217;s <span class="caps">FUD</span> campaign extends to more than just mono.  From a <a href="http://www.computing.co.uk/Analysis/1155278">computing.co.uk</a> interview with Matthew Szulik:<br />
+<i -quote><br />
+<b>Why Red Hat versus Novell-SuSE or Sun <span class="caps">JDS</span> on the&nbsp;desktop?</b></p>
+<p>They&#8217;re all proprietary except us. They all have proprietary technology inside, not 100 per cent open source software. They continue to lock customers in to limit&nbsp;choice.</p>
+<p>If you buy the Sun desktop, you&#8217;re going to buy into the proprietary Sun architecture. With SuSE there&#8217;s Red Carpet, integrated with other Novell technologies, still proprietary.<br />
+</i></p>
+<p>I&#8217;m sorry, did I miss something?  Was <span class="caps">RHN</span> recently freed unto the world?&nbsp;Sigh.</p>
+
+
+   		

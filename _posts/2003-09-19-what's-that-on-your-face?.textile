@@ -1,0 +1,13 @@
+---
+layout: post
+title: "what's that on your face?"
+---
+
+       		
+<p>See, I knew I wouldn&#8217;t keep this thing&nbsp;updated.</p><p>
+<p>Going to Boston again on Sunday.  Mucho trabajo to do.  Things have been going pretty well,&nbsp;though.</p><p><br />
+A week or so ago I was messing around with creating panel applets in C#.  Originally, I tried to wrap PanelApplet, but that didn&#8217;t go so well.  I ended up writing some super hacky C glue to do the job.  It worked pretty well.  I think if I get a chance I might look at trying to wrap PanelApplet again.  It really shouldn&#8217;t be that hard.  After all, PanelApplet is pretty much a standard&nbsp;GObject.</p><p><br />
+I started on a tutorial on writing nautilus context menus and property pages in python.  I&#8217;ve wanted to do this for a while now.  These components are super easy to write in python.  Plus you can do hella cool stuff with them, so I think it may be attractive to&nbsp;newbies.</p></p>
+
+
+   		

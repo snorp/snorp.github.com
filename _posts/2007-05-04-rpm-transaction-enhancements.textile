@@ -1,0 +1,12 @@
+---
+layout: post
+title: "RPM Transaction Enhancements"
+---
+
+       		
+<p>One of the reasons I wanted to revive rcd was so that I could use it to play with some package management ideas I&#8217;ve been kicking around.  One of these ideas is a way to reliably rollback changes made during an <span class="caps">RPM</span> transaction.  That is, actually make <span class="caps">RPM</span> transactions&nbsp;transactional.</p>
+<p>Recently, a colleague introduced me to <a href="http://sourceware.org/dm/">device-mapper</a>, a kernel system used for block device redirection.  There is a really cool thing that uses it called dm-snapshot, which allows you to redirect all writes to a device into a separate device.  What I would like to do is use this to store all of the changes made during an rpm transaction.  I think it would just need a bit of patching so that it only stores the changes made by the rcd/rpm process (and children).  If anything goes wrong, you can just trash the snapshot data and things are exactly as they were in the beginning.  Of course, if it succeeds without problelms, you need to merge the snapshot changes into the original device.  This is where things get fuzzy, as dm-snapshot does not have this ability.  However, Mark McLoughlin has created a set of <a href="http://fedoraproject.org/wiki/StatelessLinuxCachedClient">patches</a> that add this feature as part of the Stateless Linux project.  Sadly, the patches do not appear to be a high priority for the kernel guys right now, so I guess this approach will have to be put on&nbsp;hold.</p>
+<p>In any case, a system for performing this rollback stuff would be ridiculously useful in general &#8212; not just for package management.  It looks like it will be a little more than I can do by myself in a weekend hack, though, so hopefully someone else will carry the torch?&nbsp;:)</p>
+
+
+   		

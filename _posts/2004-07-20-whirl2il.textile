@@ -1,0 +1,10 @@
+---
+layout: post
+title: "whirl2il"
+---
+
+       		
+<p>Kris &#8220;released&#8221; his whir2il code today.  I haven&#8217;t tried it yet, but the results he has had with it so far are very promising.  PInvoke is great and all, but being able to actually compile existing C/C++ code to bytecode is just so freaking&nbsp;sweet.</p>
+
+
+   		

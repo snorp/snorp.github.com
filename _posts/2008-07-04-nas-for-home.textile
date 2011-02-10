@@ -1,0 +1,11 @@
+---
+layout: post
+title: "NAS for Home"
+---
+
+       		
+<p>Dear&nbsp;Lazyweb,</p>
+<p>Does anyone have suggestions on what to use for centralized storage at home?  I have a lot of music/photos here piling up and would like to put them on some energy-efficient <span class="caps">NAS</span> box.  Ideally it would have some sort of of built-in backup solution as well.  A lot of the <span class="caps">NAS</span>-in-a-box solutions seem to have <span class="caps">RAID</span> 1, but that really only helps for HA.  I am more concerned with never ever losing this stuff than having it available&nbsp;24/7.</p>
+
+
+   		

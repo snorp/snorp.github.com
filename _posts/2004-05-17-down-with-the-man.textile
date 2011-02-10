@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Down with The Man"
+---
+
+       		
+<p>So, I&#8217;ve ditched <a href="http://www.movabletype.org">MovableType</a> in favor of <a href="http://www.wordpress.org">WordPress</a>.  I have to say I&#8217;m fairly impressed with it.  The installation (including the MT import process) was incredibly simple and painless, save one problem with the dates for the imported entries which was hosing the <span class="caps">RSS</span>&nbsp;feed.</p>
+<p>Hooray for Free&nbsp;Software.</p>
+
+
+   		

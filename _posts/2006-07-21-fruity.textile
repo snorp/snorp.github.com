@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Fruity"
+---
+
+       		
+<p>I released <a href="http://www.snorp.net/log/tangerine">Tangerine</a> 0.2.6, which includes some minor bug fixes.  Also now that <a href="http://www.novell.com/products/desktop/"><span class="caps">SLED</span> 10</a> is out, I can do a screencast showing Tangerine running under it.  So I did, and you can see it <a href="http://www.snorp.net/files/screencasts/tangerine.ogg">here</a>.</p>
+<p><b>Update:</b> It was suggested to me that a screenshot might be needed too, so here you go :)<br />
+<div align="center"><br />
+<img src="http://www.snorp.net/files/screenshots/tangerine-properties.png"/><br /><br />
+<i>The control panel for Tangerine</i></div></p>
+
+
+   		

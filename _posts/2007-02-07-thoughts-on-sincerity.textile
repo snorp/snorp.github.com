@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Thoughts on Sincerity"
+---
+
+       		
+<p>Hi <a href="http://en.wikipedia.org/wiki/Steve_Jobs">Steve</a>,</p>
+<p>Earlier today I read your <a href="http://www.apple.com/hotnews/thoughtsonmusic/">&#8220;Thoughts on Music&#8221;</a> post.  Afterwards, my initial reaction was &#8220;That&#8217;s great!  You get &#8217;em Steve!&#8221;.  It&#8217;s no secret that <span class="caps">DRM</span> is broken by design, but it&#8217;s nice to see one of the biggest users of it say so.  However, I was quickly reminded by a colleague that Apple hardly seems interested in the &#8220;everything works with everything&#8221; utopia you describe.  One specific example is the iTunes music sharing feature.  Soon after it was released, some smart people figured out how it worked and developed software to be compatible with it.  This let people access their iTunes-shared music from devices or operating systems that didn&#8217;t have iTunes.  Soon after, Apple implemented a mechanism which prevented non-iTunes clients from doing this.  Why?  It wasn&#8217;t because of the record companies.  The music purchased on the iTunes Music Store was still protected by FairPlay, so they had no reason to complain.  The only conceivable reason you&#8217;d have for doing this is to force consumers into vendor lock in.  Well, it didn&#8217;t work.  Some more smart people defeated your mechanism and once again people were playing their iTunes-shared music using whatever software they liked best (be it iTunes or otherwise).  But that didn&#8217;t stop Apple from re-implementing a similar protection scheme <b>again</b> in iTunes 7.  This time you even <a href="http://www.rokulabs.com/forums/viewtopic.php?t=9026">knifed</a> some business partners in the process.  This kind of behavior isn&#8217;t at all congruent with what you&#8217;re saying in your post.  Have you changed your mind now?  Will the next iTunes release remove this restriction?  If your &#8220;Thoughts on Music&#8221; was sincere, I&#8217;d expect&nbsp;so.</p>
+
+
+   		

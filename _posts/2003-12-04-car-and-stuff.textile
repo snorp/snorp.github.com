@@ -1,0 +1,11 @@
+---
+layout: post
+title: "car and stuff"
+---
+
+       		
+<p>My Dad&#8217;s old car (which I have been driving) was getting in pretty bad shape, so I bought a new (used) car on Saturday.  It&#8217;s a green VW Passat.  It&#8217;s totally sexy.  I took pictures but don&#8217;t have them up&nbsp;anywhere.</p>
+<p>Work isn&#8217;t taking as much of my time now, which is good I guess.  Unfortunately, after hacking all day at work I have little desire to hack on <span class="caps">GNOME</span>, which is bad.  The <span class="caps">API</span>/<span class="caps">ABI</span> freeze is on Monday and recent-files <span class="caps">STILL</span> isn&#8217;t ready to go in.  Paolo has been working hard on a new document model and other good stuff, though, so maybe we&#8217;ll make it.  OO.o has its own implementation, though, so we need to coordinate with those guys on what is&nbsp;happening&#8230;</p>
+
+
+   		

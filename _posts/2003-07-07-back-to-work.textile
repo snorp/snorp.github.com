@@ -1,0 +1,12 @@
+---
+layout: post
+title: "back to work"
+---
+
+       		
+<p>I&#8217;m back home now.  Had a great weekend at the lake, as usual.  Went sailing on the catamaran, watched fireworks, ate,&nbsp;etc.</p>
+<p>Some friends of the people I was visiting are moving, and they had an old desk they were trying to get rid of.  Amazingly, I found a way to transport it back down to Bloomington, so now I have a desk.&nbsp;Sweet.</p>
+<p>Looks like Nat (and his trusty sidekicks) made a bunch of progress on Dashboard over the weekend.  I wonder if that guy sleeps.  It appears my ephy patch to make it send cluepackets is outdated now, and needs some more work.  I should find time to fix&nbsp;it.</p>
+
+
+   		

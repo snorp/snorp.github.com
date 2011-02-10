@@ -1,0 +1,14 @@
+---
+layout: post
+title: "whoa, deja vu"
+---
+
+       		
+<p>I really wish they would stop <a href="http://insight.zdnet.co.uk/software/linuxunix/0,39020472,39164119-2,00.htm">saying </a> things like&nbsp;this:</p>
+<p><i>Red Hat&#8217;s software technology is 100 percent open source. If you want to put us in a box, then the most obvious box is that Red Hat only, exclusively sells and supports open source &#8212; GPL&#8217;d&nbsp;software.</p>
+<p>&#8230;</p>
+<p>Quite frankly, if tomorrow we decided to release a closed piece of software, literally half the engineers would quit on principal that&nbsp;day.</i></p>
+<p>That&#8217;s Paul Salazar, European Marketing Director for Red Hat.  Can someone please mail me an <span class="caps">URL</span> to the source code for&nbsp;Satellite?</p>
+
+
+   		

@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Why I hate Apple (still)"
+---
+
+       		
+<p>For a while now I&#8217;ve been getting reports of people having a strange problem using their iPod with <a href="http://www.banshee-project.org">Banshee</a> or <a href="http://www.snorp.net/log/dopi">Dopi</a>.  There is a file on the device that we use to get things like the model number, which tells us what sort of iPod we&#8217;re dealing with.  That file has been removed or set to 0 length on newer firmwares, and I was just yesterday able to reproduce it after upgrading and restoring my iPod Video.  Since it wasn&#8217;t stored on the filesystem anymore, I started poking around the firmware parition, and found several copies of it there.  Unfortunately it seems to appear in different places depending on the device, so I haven&#8217;t yet found a reliable way of getting that stuff out.  We&#8217;ll eventually figure it out, though, and at that point things should start working again.  I have a totally gross solution which runs <code>strings(1)</code> on the partition, but I don&#8217;t think it will come to that&nbsp;:)</p>
+
+
+   		

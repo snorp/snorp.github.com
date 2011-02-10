@@ -1,0 +1,10 @@
+---
+layout: post
+title: "I'm trying out Seth's blogger"
+---
+
+       		
+<p>I&#8217;m trying out Seth&#8217;s blogger applet.  Testing&nbsp;1..2..3&#8230;.</p>
+
+
+   		

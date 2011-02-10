@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Banshee and AWN"
+---
+
+       		
+<p>I just tried out <a href="http://code.google.com/p/avant-window-navigator/">Avant Window Navigator</a> for the first time, after seeing Neil&#8217;s latest blog <a href="http://njpatel.blogspot.com/2007/02/to-quote-destinys-child.html">entry</a>.  It&#8217;s pretty slick, and worth trying if you have xgl/aiglx/whatever.  I also wrote a Banshee plugin which makes the current track cover appear in the dock.<br />
+<div align="center"><img src="http://www.snorp.net/files/screenshots/awn-banshee.png"><br/><i>Banshee playing &#8220;Stadium Arcadium&#8221;</i></div></p>
+<p>You can get the plugin <a href="http://www.snorp.net/files/banshee-awn-plugin.tar.gz">here</a>.  Just drop the dll into&nbsp;~/.gnome2/banshee/plugins.</p>
+
+
+   		

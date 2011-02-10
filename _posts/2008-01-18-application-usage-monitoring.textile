@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Application Usage Monitoring"
+---
+
+       		
+<p>Recently I&#8217;ve had a couple of ideas for a project (like I need another one of those).  The goal would be to make a library which allows applications to easily track their user&#8217;s interactions and log them in a central location.  Project maintainers/contributors could then look at the collected data to help them make decisions about what they should be spending time on.  For instance, a media player might log what types of files are played or if it was synced to an iPod-like&nbsp;device.</p>
+<p>As far as technical hurdles go, doing something like this is pretty easy.  The main questions I have are around the kind of policies that should exist for such a thing.  Obviously, participation should be opt-in.  But should it be on a per-app basis, or per-user?  Or both?  If it is per-app, you would likely get bombarded with a prompt on the first run of every app that uses this system.  If that is a small number it might be ok, but hopefully that wouldn&#8217;t be the case :).  On the other hand, maybe you don&#8217;t want certain sensitive applications (email client?) ever sending&nbsp;info.</p>
+<p>Then there&#8217;s the question of who should have access to the data.  My feeling is that the user should always be able to see everything that he has sent.  But should he also be able to see everyone else&#8217;s individual data?  What about the aggregated data?  That leads me to the next question.  Should there be a cookie that identifies a single user throughout all applications?  Or even a cookie per-application?  I think having a cookie across all applications would definitely make the data more useful, but I&#8217;m not sure if people would be opposed to such a thing.  Of course, this leads to yet another question.  How do we keep personal information out?  I don&#8217;t believe there is a technical solution to keep things like this from making its way in.  Developers will need to be very careful, and that kind of bothers me.  If all of the data on the server is available to everyone then maybe public scrutiny will help keep things in check, but who&nbsp;knows.</p>
+<p>These are just a few of the questions I have come up with, and I am sure others can think of plenty more.  Is it possible to come up with something that benefits the development community without infringing on user&#8217;s privacy?  Even so, would users participate?  Comments are&nbsp;open.</p>
+
+
+   		

@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Grumpy, Sneezy, Sleepy, ..."
+---
+
+       		
+<p>Several people have asked for a little standalone app that uses ipod-sharp, since not everyone uses Muine and keeps all of their music on their PC.  So this weekend I wrote Dopi.<br />
+<div align="middle"><br />
+<img src="http://www.snorp.net/files/screenshots/dopi.png"/><br /><br />
+<i>Dopi, after adding the album&nbsp;&#8216;Mezmerize&#8217;</i></p>
+</div>
+<p>You simply DnD folders/files onto the song list there to add stuff.  The delete key deletes (surprise!).  To try it, you&#8217;ll need the latest ipod-sharp.  It has been moved into Mono&#8217;s <a href="http://svn.myrealbox.com"><span class="caps">SVN</span></a>, so if you have the stuff from baz, that is out-of-date.  Also, ipod-sharp depends on libipoddevice in <span class="caps">GNOME</span> <span class="caps">CVS</span>, so you&#8217;ll need that too.  And lastly, Dopi itself is in my baz archive, <a href="http://www.snorp.net/bazaar/dopi--dev--0.0">here</a>.</p>
+
+
+   		

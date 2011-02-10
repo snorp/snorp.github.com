@@ -1,0 +1,11 @@
+---
+layout: post
+title: "novell-bugzilla.user.js updates"
+---
+
+       		
+<p>I&#8217;ve updated the Novell Bugzilla Autologin greasemonkey script again.  Just click <a href="http://www.snorp.net/files/novell-bugzilla.user.js">here</a> to upgrade your current version or install it for the first time.  You of course need greasemonkey&nbsp;installed.</p>
+<p>I&#8217;ve removed the &#8220;go to login page&#8221; step.  It now just logs in directly via <span class="caps">AJAX</span> and refreshes your current page.  It has also been rewritten to use jQuery (and jQuery.blockUI) which cleaned things up a bit and gives a nicer &#8220;please wait&#8221; message&nbsp;:)</p>
+
+
+   		

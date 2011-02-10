@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Some things do change..."
+---
+
+       		
+<p>Ever since zypper came along I hated it.  It was slow, buggy, and used a ton of&nbsp;resources.</p>
+<p>Well, I installed <a href="http://en.opensuse.org/Development_Version">openSUSE 11.0b3</a> yesterday and the zypper/libzypp there is <strong>massively</strong> improved.  I don&#8217;t think it&#8217;s possible to overstate just how much of an improvement it really is.  Normally I just make rcd/rug work on whatever new release comes along and continue using that.  Zypper and PackageKit are so good now that I&#8217;m giving that up.  So congratulations to the zypp team &#8212; I know they caught a lot of flack in the past, but I think this release will finally put a lot of that to&nbsp;rest.</p>
+
+
+   		

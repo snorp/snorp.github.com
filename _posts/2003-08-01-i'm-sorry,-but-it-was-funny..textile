@@ -1,0 +1,15 @@
+---
+layout: post
+title: "I'm sorry, but it was funny."
+---
+
+       		
+<p>I&#8217;m in Boston again.  Been here since Sunday.  Things have been going fairly well I suppose.  It seems I am starting to get my arms around red carpet now, as I was able to fix a few things&nbsp;today.</p>
+<p>A lot of other remote guys are in town too, so that&#8217;s cool.  I finally got to meet Tambet and&nbsp;Aidan.</p>
+<p>I fixed a small bug in nautilus yesterday.  I miss hacking on it.  I guess there are big plans for 2.6, though, so maybe I can get in on that if I have time.  It&#8217;s really great to see medusa getting some love.  I haven&#8217;t tried it out yet, but I hear Curtis Hovey has been doing great&nbsp;things.</p>
+<p>I&#8217;ve totally neglected dashboard this week.  I have a little patch sitting on my machine at home that fixes up the epiphany frontend and turns it into a plugin.  Hopefully it won&#8217;t be too out of date when I get back next&nbsp;week&#8230;..</p>
+<p>I bought &#8220;Cat&#8217;s Cradle&#8221; by Kurt Vonnegut and read it on the trip to Boston.  I was only expecting to get maybe half-way done with it, but it turns out I was able to read the whole thing due to my flight(s) taking so long.  In Indianapolis, we sat on the tarmac for like 45 minutes waiting for a new flight plan (apparently there was some bad weather in the original route), so I was like an hour late to <span class="caps">JFK</span>.  At <span class="caps">JFK</span>, we had to wait for a flight plan again.  Then, they found out they lost the captain&#8217;s luggage so we had to wait on that.  When we finally got out of the terminal, we were like 46th in line for takeoff, so we slowly taxiied around for a while.  During the taxi, the cabin filled with smoke due to some trivial air-conditioning snafu.  Everyone freaked out and we went back to the tarmac.  Two hours later, or so, we were finally in the&nbsp;air.</p>
+<p>Anyway, &#8220;Cat&#8217;s Cradle&#8221; was really good.  I think I&#8217;m going to get another Vonnegut to read on the way back.  Anyone have a&nbsp;suggestion?</p>
+
+
+   		

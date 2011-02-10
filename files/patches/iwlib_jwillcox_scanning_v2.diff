@@ -1,0 +1,359 @@
+--- ../wireless_tools.27.clean/wireless.16.h	2003-12-09 20:47:21.000000000 -0500
++++ wireless.16.h	2004-01-24 12:55:57.000000000 -0500
+@@ -344,13 +344,15 @@
+ #define IW_ESSID_MAX_SIZE	32
+ 
+ /* Modes of operation */
+-#define IW_MODE_AUTO	0	/* Let the driver decides */
+-#define IW_MODE_ADHOC	1	/* Single cell network */
+-#define IW_MODE_INFRA	2	/* Multi cell network, roaming, ... */
+-#define IW_MODE_MASTER	3	/* Synchronisation master or Access Point */
+-#define IW_MODE_REPEAT	4	/* Wireless Repeater (forwarder) */
+-#define IW_MODE_SECOND	5	/* Secondary master/repeater (backup) */
+-#define IW_MODE_MONITOR	6	/* Passive monitor (listen only) */
++typedef enum {
++  IW_MODE_AUTO,	/* Let the driver decides */
++  IW_MODE_ADHOC, /* Single cell network */
++  IW_MODE_INFRA, /* Multi cell network, roaming, ... */
++  IW_MODE_MASTER, /* Synchronisation master or Access Point */
++  IW_MODE_REPEAT, /* Wireless Repeater (forwarder) */
++  IW_MODE_SECOND, /* Secondary master/repeater (backup) */
++  IW_MODE_MONITOR /* Passive monitor (listen only) */
++} iw_mode;
+ 
+ /* Maximum number of size of encoding token available
+  * they are listed in the range structure */
+--- ../wireless_tools.27.clean/iwlib.h	2003-12-09 20:47:13.000000000 -0500
++++ iwlib.h	2004-02-13 16:11:12.000000000 -0500
+@@ -31,6 +31,7 @@
+ #include <net/ethernet.h>	/* struct ether_addr */
+ #include <sys/time.h>		/* struct timeval */
+ #include <unistd.h>
++#include <time.h>
+ 
+ /* This is our header selection. Try to hide the mess and the misery :-(
+  * Don't look, you would go blind ;-) */
+@@ -187,6 +188,7 @@
+ typedef struct iw_priv_args	iwprivargs;
+ typedef struct sockaddr		sockaddr;
+ 
++
+ /* Structure for storing all wireless information for each device
+  * This is pretty exhaustive... */
+ typedef struct wireless_info
+@@ -254,6 +256,19 @@
+   int		mode;			/* Operation mode */
+ } wireless_config;
+ 
++typedef struct wireless_ap
++{
++  char *	essid;
++  char *        address;
++  __u8          quality;
++  double        frequency;
++  int           rate;
++  time_t        stamp;
++} wireless_ap;
++
++typedef void (*iw_scan_handler) (wireless_ap *ap,
++				 void *user_data);
++
+ typedef struct stream_descr
+ {
+   char *	end;		/* End of the stream */
+@@ -291,6 +306,21 @@
+ 			  char *	ifname,
+ 			  iwrange *	range);
+ int
++	iw_scan(int	skfd,
++		char *	ifname,
++		iw_scan_handler handler,
++		void *  user_data);
++
++const char *
++	iw_mode_to_string(iw_mode mode);
++
++void
++	iw_wireless_ap_free(wireless_ap *ap);
++
++wireless_ap *
++	iw_wireless_ap_copy(wireless_ap *ap);
++
++int
+ 	iw_get_priv_info(int		skfd,
+ 			 char *		ifname,
+ 			 iwprivargs *	priv,
+@@ -379,7 +409,7 @@
+ void
+ 	iw_print_timeval(char *			buffer,
+ 			 int			buflen,
+-			 const struct timeval *	time);
++			 const struct timeval *	timeval);
+ /* --------------------- ADDRESS SUBROUTINES ---------------------- */
+ int
+ 	iw_check_mac_addr_type(int	skfd,
+--- ../wireless_tools.27.clean/iwlib.c	2003-12-15 19:07:05.000000000 -0500
++++ iwlib.c	2004-02-13 16:29:53.000000000 -0500
+@@ -544,6 +544,244 @@
+   return(0);
+ }
+ 
++static wireless_ap *
++iw_create_ap(void)
++{
++  wireless_ap *ap = (wireless_ap *)malloc(sizeof(wireless_ap));
++  return ap;
++}
++
++void
++iw_wireless_ap_free(wireless_ap *ap)
++{
++  if(ap->essid != NULL)
++    free(ap->essid);
++
++  if(ap->address != NULL)
++    free(ap->address);
++
++  free(ap);
++}
++
++static void
++iw_extract_ap_list(struct stream_descr *stream,
++		   iw_scan_handler  handler,
++		   void * user_data)
++{
++  char buffer[128];
++  wireless_ap *ap = NULL;
++  struct iw_event iwe;
++  int ret;
++  time_t stamp = time(NULL);
++  
++  while((ret = iw_extract_event_stream(stream, &iwe)) > 0)
++    {
++      switch(iwe.cmd)
++	{
++	case SIOCGIWAP:
++	  if (ap != NULL)
++	    {
++              ap->stamp = stamp;
++	      (*handler)(ap, user_data);
++	      iw_wireless_ap_free(ap);
++	    }
++	  
++	  ap = iw_create_ap();
++	  ap->address = strdup(iw_pr_ether(buffer, iwe.u.ap_addr.sa_data));
++	  break;
++	case SIOCGIWESSID:
++	  {
++	    char *essid = (char *)malloc(sizeof(char)*IW_ESSID_MAX_SIZE+1);
++	    
++	    if((iwe.u.essid.pointer) && (iwe.u.essid.length))
++	      memcpy(essid, iwe.u.essid.pointer, iwe.u.essid.length);
++	    essid[iwe.u.essid.length] = '\0';
++	    ap->essid = strdup(essid);
++	  }
++	  break;
++	case IWEVQUAL:
++	  {
++	    iwe.u.qual.updated = 0x0;	/* Not that reliable, disable */
++	    ap->quality = iwe.u.qual.qual;
++	  }
++	  break;
++	case SIOCGIWFREQ:
++	  ap->frequency = iw_freq2float(&(iwe.u.freq));
++	  break;
++	case SIOCGIWENCODE:
++	  break;
++	case SIOCGIWRATE:
++	  ap->rate = iwe.u.bitrate.value;
++	  break;
++	}
++    }
++
++  if (ap != NULL)
++    {
++      (*handler)(ap, user_data);
++      iw_wireless_ap_free(ap);
++    }
++}
++
++
++/*------------------------------------------------------------------*/
++/*
++ * Perform a scan of available access points
++ */
++int
++iw_scan(int	skfd,
++	char *	ifname,
++	iw_scan_handler handler,
++	void *  user_data)
++{
++  struct iwreq		wrq;
++  unsigned char		buffer[IW_SCAN_MAX_DATA];	/* Results */
++  struct iw_range	range;
++  int			has_range;
++  struct timeval	tv;				/* Select timeout */
++  int			timeout = 5000000;		/* 5s */
++
++  /* Get range stuff */
++  has_range = (iw_get_range_info(skfd, ifname, &range) >= 0);
++
++  /* Check if the interface could support scanning. */
++  if((!has_range) || (range.we_version_compiled < 14))
++    {
++      fprintf(stderr, "%-8.16s  Interface doesn't support scanning.\n\n",
++	      ifname);
++      return(-1);
++    }
++
++  /* Init timeout value -> 250ms*/
++  tv.tv_sec = 0;
++  tv.tv_usec = 250000;
++
++  /*
++   * Here we should look at the command line args and set the IW_SCAN_ flags
++   * properly
++   */
++  wrq.u.param.flags = IW_SCAN_DEFAULT;
++  wrq.u.param.value = 0;		/* Later */
++
++  /* Initiate Scanning */
++  if(iw_set_ext(skfd, ifname, SIOCSIWSCAN, &wrq) < 0)
++    {
++      if(errno != EPERM)
++	{
++	  fprintf(stderr, "%-8.16s  Interface doesn't support scanning : %s\n\n",
++		  ifname, strerror(errno));
++	  return(-1);
++	}
++      /* If we don't have the permission to initiate the scan, we may
++       * still have permission to read left-over results.
++       * But, don't wait !!! */
++#if 0
++      /* Not cool, it display for non wireless interfaces... */
++      fprintf(stderr, "%-8.16s  (Could not trigger scanning, just reading left-over results)\n", ifname);
++#endif
++      tv.tv_usec = 0;
++    }
++  timeout -= tv.tv_usec;
++
++  /* Forever */
++  while(1)
++    {
++      fd_set		rfds;		/* File descriptors for select */
++      int		last_fd;	/* Last fd */
++      int		ret;
++
++      /* Guess what ? We must re-generate rfds each time */
++      FD_ZERO(&rfds);
++      last_fd = -1;
++
++      /* In here, add the rtnetlink fd in the list */
++
++      /* Wait until something happens */
++      ret = select(last_fd + 1, &rfds, NULL, NULL, &tv);
++
++      /* Check if there was an error */
++      if(ret < 0)
++	{
++	  if(errno == EAGAIN || errno == EINTR)
++	    continue;
++	  fprintf(stderr, "Unhandled signal - exiting...\n");
++	  return(-1);
++	}
++
++      /* Check if there was a timeout */
++      if(ret == 0)
++	{
++	  /* Try to read the results */
++	  wrq.u.data.pointer = buffer;
++	  wrq.u.data.flags = 0;
++	  wrq.u.data.length = sizeof(buffer);
++	  if(iw_get_ext(skfd, ifname, SIOCGIWSCAN, &wrq) < 0)
++	    {
++	      /* Check if results not available yet */
++	      if(errno == EAGAIN)
++		{
++		  /* Restart timer for only 100ms*/
++		  tv.tv_sec = 0;
++		  tv.tv_usec = 100000;
++		  timeout -= tv.tv_usec;
++		  if(timeout > 0)
++		    continue;	/* Try again later */
++		}
++
++	      /* Bad error */
++	      fprintf(stderr, "%-8.16s  Failed to read scan data : %s\n\n",
++		      ifname, strerror(errno));
++	      return(-2);
++	    }
++	  else
++	    /* We have the results, go to process them */
++	    break;
++	}
++
++      /* In here, check if event and event type
++       * if scan event, read results. All errors bad & no reset timeout */
++    }
++
++  if(wrq.u.data.length)
++    {
++      struct stream_descr	stream;
++#if 0
++      /* Debugging code. In theory useless, because it's debugged ;-) */
++      int	i;
++      printf("Scan result [%02X", buffer[0]);
++      for(i = 1; i < wrq.u.data.length; i++)
++	printf(":%02X", buffer[i]);
++      printf("]\n");
++#endif
++      iw_init_event_stream(&stream, buffer, wrq.u.data.length);
++
++      iw_extract_ap_list(&stream, handler, user_data);
++    }
++
++  return 0;
++}
++
++const char *
++iw_mode_to_string(iw_mode mode)
++{
++  return iw_operation_mode[mode];
++}
++
++wireless_ap *
++iw_wireless_ap_copy(wireless_ap *ap)
++{
++  wireless_ap *new_ap = iw_create_ap();
++
++  new_ap->essid = strdup(ap->essid);
++  new_ap->address = strdup(ap->address);
++  new_ap->quality = ap->quality;
++  new_ap->frequency = ap->frequency;
++  new_ap->rate = ap->rate;
++  new_ap->stamp = ap->stamp;
++  
++  return new_ap;
++}
++
+ /*------------------------------------------------------------------*/
+ /*
+  * Get information about what private ioctls are supported by the driver
+@@ -1517,14 +1755,14 @@
+ void
+ iw_print_timeval(char *			buffer,
+ 		 int			buflen,
+-		 const struct timeval *	time)
++		 const struct timeval *	timeval)
+ {
+         int s;
+ 
+-	s = (time->tv_sec) % 86400;
++	s = (timeval->tv_sec) % 86400;
+ 	snprintf(buffer, buflen, "%02d:%02d:%02d.%06u ", 
+ 		s / 3600, (s % 3600) / 60, 
+-		s % 60, (u_int32_t) time->tv_usec);
++		s % 60, (u_int32_t) timeval->tv_usec);
+ }
+ 
+ /*********************** ADDRESS SUBROUTINES ************************/

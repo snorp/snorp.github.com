@@ -1,0 +1,12 @@
+---
+layout: post
+title: "zmd"
+---
+
+       		
+<p>In the last few months, Tambet and I have been working on the successor to rcd called zmd (ZENworks Management Daemon).  It is written in C#.  I did not choose the&nbsp;name.</p>
+<p>Things are going pretty well, and a lot of stuff is starting to work.  We have an xmlrpc compatability layer for implementing the old rcd methods (just enough to make the old <span class="caps">GUI</span> work), and a remoting layer for the new clients.  The xmlrpc stuff is pretty much complete, and you can use the old rug/red-carpet apps with it to install packages, etc.  Also we&#8217;re writing a new &#8216;rug&#8217; in C#.  You can see it in action <a href="http://www.snorp.net/files/screenshots/rug-transacting.png">here</a>.  In that shot, it&#8217;s installing some stuff from the &#8216;funktronics&#8217; aptrpm&nbsp;repository.</p>
+<p>I don&#8217;t have any code to share yet, but hopefully that will happen&nbsp;soon.</p>
+
+
+   		

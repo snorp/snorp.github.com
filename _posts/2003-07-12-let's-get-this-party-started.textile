@@ -1,0 +1,12 @@
+---
+layout: post
+title: "let's get this party started"
+---
+
+       		
+<p>I&#8217;m leaving tomorrow for my first trip to Boston.  I&#8217;m pretty psyched about&nbsp;it.</p>
+<p>Worked a bit on epiphany/dashboard today.  Updated the frontend patch to work with the new <span class="caps">API</span>, and also built an <span class="caps">RPM</span> (<a href="http://www.snorp.net/files/packages/epiphany-0.7.3-2.i386.rpm">http://www.snorp.net/files/packages/epiphany-0.7.3-2.i386.rpm</a>).  It requires mozilla from xd2 (sorry, it&#8217;s what I&nbsp;have).</p>
+<p>It sounds like the dashboard demo at the o&#8217;reilly conference went pretty well.  I suppose it will be getting even <b>more</b> attention now.  Good&nbsp;stuff.</p>
+
+
+   		

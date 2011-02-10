@@ -1,0 +1,12 @@
+---
+layout: post
+title: "allegedly very tasty"
+---
+
+       		
+<p>Last night I did a lot of work on <a href="http://www.snorp.net/log/tangerine">Tangerine</a>, a standalone <span class="caps">DAAP</span> server of mine.  I think it&#8217;s probably good enough for general use now, as I added a little control panel for enabling/configuring&nbsp;it.</p>
+<div align="center"><img src="http://www.snorp.net/files/screenshots/tangerine-properties.png"/></div>
+<p>The &#8216;automatic&#8217; mode uses <a href="http://www.beagle-project.org">Beagle</a>, which was really fun to do.  Aside from some kind of metadata extraction issue, it works really&nbsp;well.</p>
+
+
+   		

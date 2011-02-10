@@ -1,0 +1,13 @@
+---
+layout: post
+title: "ok, ok, stop hounding me"
+---
+
+       		
+<p>Tomorrow will end my first week as a Ximian employee.  So far, I&#8217;m feeling pretty useless, having done exactly one productive thing the whole week.  I&#8217;m sure I&#8217;ll get the hang of things eventually, but, you know, I&#8217;m&nbsp;impatient.</p>
+<p>4th of July is on Friday.  My family sort of has standing plans with some friends of ours who live on a lake.  So, the girlfriend and I are heading up there tomorrow night.  It&#8217;s always a great time, and I&#8217;m looking forward to it again this&nbsp;year.</p>
+<p>Talked with a guy over email about the recent-files spec (he wondered why I was using <span class="caps">XML</span>), and then today with Federico on <span class="caps">IRC</span> (OO.o stuff).  It has been a long time since I touched that code.  I need to get it in shape so I don&#8217;t miss yet <b>another</b> opportunity to get it in the platform (2.6).  Actually, by then maybe I&#8217;ll be able to redo it as a set of D-Bus messages instead of specifying the storage mechanism.  Seems like it would be far&nbsp;better.</p>
+<p>Everyone and their dog is hacking on <a href="http://www.nat.org/dashboard">dashboard</a>.  It sounds pretty freaking&nbsp;cool.</p>
+
+
+   		

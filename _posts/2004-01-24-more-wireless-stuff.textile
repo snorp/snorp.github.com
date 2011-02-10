@@ -1,0 +1,13 @@
+---
+layout: post
+title: "more wireless stuff"
+---
+
+       		
+<p>Spent some time today and yesterday hacking on the wireless applet some more.  Now you can double-click a network to switch to it (sets the essid and gets a dhcp lease).  I was thinking of what the applet should do while its in the process of switching.  Getting a IP can take some time.  For now, at least, I just made it insensitive with a &#8220;switching&#8230;&#8221;&nbsp;message.</p>
+<div align="center"><img src="http://www.snorp.net/files/screenshots/wireless-switching.png"/></div>
+<p>Anyway, I finally sent a patch to Jean today (the wireless-tools maintainer) for the scanning stuff.  Hopefully it&#8217;ll make it into the next wireless-tools release.  It&#8217;s a shame I didn&#8217;t get this stuff done before the feature&nbsp;freeze&#8230;.</p>
+<p>I also spent a few minutes on recent-files stuff this week.  I reverted the (unstable and unfinished) changes I made last year, and applied a patch from bugzilla that fixed some <span class="caps">NFS</span> file locking issues.  I think by gnome 2.8, dbus will have matured and maybe we&#8217;ll be able to rewrite recent-files as a dbus service instead of the file spec we have&nbsp;now&#8230;.</p>
+
+
+   		

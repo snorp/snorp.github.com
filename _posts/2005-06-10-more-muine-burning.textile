@@ -1,0 +1,10 @@
+---
+layout: post
+title: "More muine burning"
+---
+
+       		
+<p>I worked some more on the muine-burn plugin.  It should be far more stable now.  So if you tried the last one and had problems, give this a shot.  Tarballs are <a href="http://www.snorp.net/files/packages/libnautilus-burn-sharp-0.1.tar.gz">here</a> and <a href="http://www.snorp.net/files/packages/muine-burn-0.0.4.tar.gz">here</a>.</p>
+
+
+   		

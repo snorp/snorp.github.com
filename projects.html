@@ -1,0 +1,29 @@
+---
+layout: page
+title: Projects
+---
+
+These days I am pretty much consumed by my day job and family life, but I have on occasion wrote software that some have found useful.  Here is a sampling.
+
+<ul class="project_list">
+    <li>
+        <span class="project_name"><a href="https://github.com/mono/ipod-sharp">ipod-sharp</a></span>
+        This is a library for .NET that manipulates the various databases on Apple iPod devices, allowing you to add or remove music and photos.  It is primarily used in the <a href="http://banshee-project.org">Banshee</a> media player.
+    </li>
+    
+    <li>
+        <span class="project_name"><a href="https://github.com/mono/daap-sharp">daap-sharp</a></span>
+        This is another library for .NET which implements DAAP (Digital Audio Access Protocol).  This is what Apple's iTunes uses for music sharing, and was designed to interoperate with it.  Unfortunately, as of iTunes 7.0, Apple changed the authentication mechanism to prevent any third-party clients from connecting to iTunes.  However, this library can still be used to serve media to iTunes or connect to other third-party servers.
+    </li>
+    
+    <li>
+        <span class="project_name"><a href="https://launchpad.net/tangerine">Tangerine</a></span>
+        Tangerine is an application that serves music over the DAAP protocol.  As you might expect, it uses daap-sharp.  I've handed over the reigns for this one to <a href="https://launchpad.net/~alexlauni">Alex Launi</a>, as I just haven't had any time to work on it (much like the rest of the things on this page).
+    </li>
+    
+    <li>
+        <span class="project_name">Dopi</span>
+        Dopi is a small application for managing music on iPod devices.  It was mainly built as a way for me to use (and test) ipod-sharp easily.  You can grab the code <a href="http://snorp.net/files/dopi/">here</a>.
+    </li>
+    
+</ul>

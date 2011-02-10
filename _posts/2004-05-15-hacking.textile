@@ -1,0 +1,16 @@
+---
+layout: post
+title: "Hacking"
+---
+
+       		
+<p><b>Nautilus</b></p>
+<p>I actually did some nautilus hacking recently.  It had been a while, and it was pretty fun.  I added desktop item editing to the property&nbsp;window.</p>
+<div align="center"><img src="http://www.snorp.net/files/screenshots/ditem-launcher-edit.png"/></div>
+<p>It&#8217;s pretty simple.  Way better than the UI in gnome-desktop-item-edit, <span class="caps">IMO</span>.  Anyway, Dave branched nautilus the other day and that&#8217;s now in <span class="caps">CVS</span>.  Now someone needs to fix the UI for adding new launchers/links&nbsp;:)</p>
+<p><b>Work</b></p>
+<p>I also added yum support to the Red Carpet daemon this week.  This should be particularly interesting to Fedora users, since there seem to be a lot of apt and yum repositories for that (and rcd supports both now).  I haven&#8217;t committed the patch yet due to some other stuff going on, but if anyone wants to try it just mail&nbsp;me.</p>
+<p>Also, Petreley sucks.  That is&nbsp;all.</p>
+
+
+   		

@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Nokia/Maemo"
+---
+
+       		
+<p>Like <a href="http://planet.gnome.org">everyone</a> else, I am <i>totally</i> stoked about the new <a href="http://www.nokia.com/nokia/0,,75023,00.html">Nokia 770</a>.  The hardware looks sweet, but the fact that it is coupled with a sane open development platform just makes it ridiculously attractive.  Especially considering it&#8217;s based on a platform we all know relatively well&nbsp;:)</p>
+<p>The screenshots look really great.  One thing I wonder about, though, is how well the included apps deal with an unreliable network.  I mean, if I stroll out of range from my wifi, will all kinds of errors and stuff show up, or will it deal gracefully?  The <a href="http://www.maemo.org">development site</a> mentions some things about getting events like &#8220;low battery&#8221; over dbus.  Hopefully &#8220;network is down&#8221; is the same kind of thing, and apps can just go into offline mode or&nbsp;whatever.</p>
+<p>It would be really fabulous to get mono running on this thing.  I wonder if something like a &#8220;compact edition&#8221; of it would be&nbsp;needed.</p>
+
+
+   		

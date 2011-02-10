@@ -1,0 +1,10 @@
+---
+layout: post
+title: "rcd for fedora core 3"
+---
+
+       		
+<p>A volunteer has packaged rcd/rug for fc3, and I have put the rpms <a href="http://www.snorp.net/files/packages/rcd-fc3/">here</a>.&nbsp;Enjoy.</p>
+
+
+   		

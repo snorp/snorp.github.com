@@ -1,0 +1,11 @@
+---
+layout: post
+title: "New Job"
+---
+
+       		
+<p>For quite a while I had been working on <a href="http://www.novell.com/products/thinclient/"><span class="caps">SUSE</span> Linux Enterprise Thin Client</a>, which is Novell&#8217;s diskful Thin Client solution.  It had a lot of challenging aspects, not least of which was fitting a minimal <span class="caps">GNOME</span> environment + apps onto 128MB of flash.  That work is mostly wrapping up, though, and I&#8217;ve moved to a new&nbsp;team.</p>
+<p>At the beginning of the month I started working on <a href="http://susestudio.com"><span class="caps">SUSE</span> Studio</a>, which is a web-based appliance builder for <span class="caps">SUSE</span>.  I wanted to get out of my comfort zone a little, and it hasn&#8217;t disappointed there.  We&#8217;re using RoR, which I am really enjoying so far.  Ruby was ridiculously easy to pick up.  Rails confused me at first with the amount of magic that it does behind-the-scenes, but there is a lot of information on how that works so getting up to speed wasn&#8217;t too bad.  I bought <a href="http://pragprog.com/titles/rails3/agile-web-development-with-rails-third-edition"><em>Agile Web Development with Rails</em></a> which has been very helpful as&nbsp;well.</p>
+
+
+   		

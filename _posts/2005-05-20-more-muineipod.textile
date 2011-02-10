@@ -1,0 +1,13 @@
+---
+layout: post
+title: "more muine/iPod"
+---
+
+       		
+<p>Martin Palma has gone to the work of packaging muine-ipod and ipod-sharp for Ubuntu hoary.  You can get them <a href="http://www.antichaos.net/files/">here</a>.</p>
+<p>Work progresses.  I&#8217;ve still been getting used to <a href="http://bazaar.canonical.com">bazaar</a>, which I&#8217;m using for version control.  Overall I really like it.  I want to start learning some of the more advanced features,&nbsp;though.</p>
+<p>The latest muine-ipod <a href="http://www.snorp.net/files/bazaar-snaps/muine-ipod-snapshot.tar.gz">snapshot</a> has support for optionally syncing only the current playlist to the iPod.  I&#8217;ve been told this works pretty well for shuffle users.  I still think we need some way to individually mark songs in the library for syncing (similar to what iTunes does I think?).  iPod Mini users would especially benefit from this, since they probably can&#8217;t sync their entire library &#8212; and composing a playlist would just be a bit ridiculous (6gb of music in a&nbsp;playlist!).</p>
+<p>Also, I sent a patch to muine-list this week that added a plugin for inotify support.  It simply monitors the directories you&#8217;ve added to muine, and if something gets added/removed/changed it takes the appropriate action on the song library.  I&#8217;ve wanted this kind of behavior in a music player for <b>years</b>, and now that inotify has come along it&#8217;s finally possible.  I&#8217;ve been using rml&#8217;s inotify <a href="http://primates.ximian.com/~rml/kernel-rml/suse-93-i586/">kernel</a> for SuSE 9.3, and it&#8217;s working quite well.  You can get the patch + plugin <a href="http://www.snorp.net/files/muine-inotify.tar.gz">here</a>.</p>
+
+
+   		

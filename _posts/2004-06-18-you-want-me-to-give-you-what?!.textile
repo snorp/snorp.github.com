@@ -1,0 +1,12 @@
+---
+layout: post
+title: "You want me to give you what?!"
+---
+
+       		
+<p>There is this intersection near my apartment where quite frequently there will be someone begging for money or something.  Usually they have a cardboard sign with stuff like &#8220;hungry need food&#8221; on it.  Now, I&#8217;m all in favor of helping people if they really need it, but today there was a guy <span class="caps">LISTENING</span> TO A <span class="caps">GOD</span> <span class="caps">DAMN</span> <span class="caps">IPOD</span> <span class="caps">WHILE</span> <span class="caps">BEGGING</span> <span class="caps">FOR</span> <span class="caps">CASH</span>.&nbsp;Sigh.</p>
+<p>So, I committed my yum support to rcd today.  It rules.  Snapshot builds will have them soon (tomorrow morning I guess).  You can simply subscribe to the &#8216;rcd-snaps&#8217; channel and do a &#8216;rug up&#8217; to get it.  The yum support works a lot like the apt support, so you need to use something like open-carpet.org to get access to yum repos.  If people have some they would like to see in open-carpet.org, mail me and I&#8217;ll add&nbsp;it.</p>
+<p>I also committed some performance improvements that will help a lot if you&#8217;re using a large package repository like open-carpet.org.&nbsp;Yay.</p>
+
+
+   		
