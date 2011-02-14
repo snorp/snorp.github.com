@@ -10,66 +10,67 @@ nav:
     <title>{{ page.title }}</title> 
     
     <link href="/blog/atom.xml" rel="alternate" title="snorp.net" type="application/atom+xml"/> 
-    
+  
+    <meta name="viewport" content="width=device-width" />  
     
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'> 
-    <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen"> 
+    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen">
+    <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 480px)" href="/css/small-screen.css">
     
-    <script src="http://www.google.com/jsapi"></script> 
+    <script src="http://www.google.com/jsapi"></script>
     <script src="/js/base.js"></script>     
 </head> 
 <body> 
     <div id="main"> 
         <div id="header"> 
-    <div id="header_content"> 
-        <a href="/index.html">snorp.net</a> <span id="header_subtext">home of <a href="mailto:snorp@snorp.net">James Willcox</a></span> 
-    </div> 
+        <div id="header_content"> 
+            <a href="/index.html">snorp.net</a> <span id="header_subtext">home of <a href="mailto:snorp@snorp.net">James Willcox</a></span> 
+        </div> 
  
-    <ul id="header_buttons"> 
-        {% for nav in page.nav %}
-        {% if page.url == nav.url %}
-        <li class="selected">
-        {% else %}
-        <li>
-        {% endif %}
-            <a href="{{nav.url}}">{{nav.name}}</a>
-        </li>
-        {% endfor %}
-    </ul> 
+        <ul id="header_buttons"> 
+            {% for nav in page.nav %}
+            {% if page.url == nav.url %}
+            <li class="selected">
+            {% else %}
+            <li>
+            {% endif %}
+                <a href="{{nav.url}}">{{nav.name}}</a>
+            </li>
+            {% endfor %}
+        </ul> 
     
-</div> 
-<div id="header_spacer"></div>        
+    </div> 
+    <div id="header_spacer"></div>        
         
-<div id="content"> 
+    <div id="content"> 
 
-{{content}}
- 
-</div> 
- 
-        <div id="sidebar"> 
-    <h4><span>recent</span> tweets</h4> 
-    <div id="tweet_container"> 
-        <span id="fetching_tweets" class="message">Fetching tweets...</span> 
-    </div>
-    
-    <a class="nohighlight" href="/blog/atom.xml"><img id="subscribe_button" src="/images/feed.png" alt="Subscribe to feed" /></a><br/>
-    <form id="searchform" action="http://google.com/search">
-        <input id="searchbox" type="text" name="q" value="Search">
-    </form>
-    <br/>
-	<ul class="links"> 
-        <li><a href="http://flickr.com/photos/snorp" target="_blank">Flickr</a></li> 
-        <li><a href="http://facebook.com/snorp" target="_blank">Facebook</a></li> 
-        <li><a href="http://www.linkedin.com/in/snorp" target="_blank">LinkedIn</a></li> 
-        <li><a href="http://litl.com" target="_blank">litl</a></li> 
-        <li><a href="http://novell.com" target="_blank">Novell</a></li> 
-        <li><a href="http://gnome.org" target="_blank">GNOME</a></li> 
-    </ul> 
-</div> 
-<div id="footer"> 
-    Copyright 2003-2011 James Willcox. <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">Some rights reserved</a> 
-</div> 
+    {{content}}
  
     </div> 
+ 
+    <div id="sidebar"> 
+        <h4><span>recent</span> tweets</h4> 
+        <div id="tweet_container"> 
+            <span id="fetching_tweets" class="message">Fetching tweets...</span> 
+        </div>
+    
+        <a class="nohighlight" href="/blog/atom.xml"><img id="subscribe_button" src="/images/feed.png" alt="Subscribe to feed" /></a><br/>
+        <form id="searchform" action="http://google.com/search">
+            <input id="searchbox" type="text" name="q" value="Search">
+        </form>
+        <br/>
+    	<ul class="links"> 
+            <li><a href="http://flickr.com/photos/snorp" target="_blank">Flickr</a></li> 
+            <li><a href="http://facebook.com/snorp" target="_blank">Facebook</a></li> 
+            <li><a href="http://www.linkedin.com/in/snorp" target="_blank">LinkedIn</a></li> 
+            <li><a href="http://litl.com" target="_blank">litl</a></li> 
+            <li><a href="http://novell.com" target="_blank">Novell</a></li> 
+            <li><a href="http://gnome.org" target="_blank">GNOME</a></li> 
+        </ul> 
+    </div> 
+    <div id="footer"> 
+        Copyright 2003-2011 James Willcox. <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">Some rights reserved</a> 
+    </div> 
+</div> 
 </body> 
 </html>
