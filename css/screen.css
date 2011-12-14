@@ -8,39 +8,6 @@ body {
     color: #303030;
 }
 
-a {
-    color: #820700;
-    -webkit-transition: background-color 0.2s ease-in;
-    transition: background-color 0.2s ease-in;
-}
-
-a:hover {
-    background-color: #D8D8D2;
-    -webkit-transition: background-color 0.2s ease-in;
-    transition: background-color 0.2s ease-in;
-}
-
-a.nohighlight:hover {
-    background-color: white;
-}
-
-hr {
-    border: 0px;
-    height: 1px;
-    background-color: #D8D8D2;
-    color: #D8D8D2;
-}
-
-h1 {
-    font-size: 22px;
-    text-transform: lowercase;
-}
-
-h2 {
-    font-size: 18px;
-    text-transform: lowercase;
-}
-
 #main {
     margin-left: auto;
     margin-right: auto;
@@ -53,54 +20,25 @@ h2 {
     margin-bottom: 0px;
     padding-bottom: 0px;
     font-size: 30px;
-    border-bottom: 1px solid #D8D8D2;
     position: relative;
 }
 
 #header_content {
     padding-left: 12px;
     position: absolute;
-    bottom: 0px;
+    bottom: 12px;
 }
 
 #header_content a {
     text-decoration: none;
 }
 
-#header_buttons {
+#header_tabs {
     font-size: 14px;
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    position: absolute;
-    bottom: -1px;
-    right: 0px;
 }
 
-#header_buttons li {
-    display: block;
-    float: left;
-    padding: 6px;
-    border: solid 1px #D8D8D2;
-    margin-left: 12px;
-}
-
-#header_buttons li.selected {
-    font-weight: bold;
-}
-
-#header_buttons li.active {
-    color: white;    
-    background-color: #820700;
-}
-
-#header_buttons a {
-    text-decoration: none;
-}
-
-#header_buttons a:hover {
-    background-color: transparent;
-    color: white;
+#header_tabs li {
+    float: right;
 }
 
 #header_subtext {
@@ -154,7 +92,7 @@ h2 {
 
 #sidebar h4 {
     margin: 0;
-    color: #820700;
+    /* color: #820700; */
     font-size: 16px;
     font-weight: normal;
     text-transform: lowercase;
@@ -195,6 +133,7 @@ h2 {
     padding: 6px;
     border-bottom: 1px solid #D8D8D2;
     -webkit-transition: background-color 0.2s ease-in;
+    -moz-transition: background-color 0.2s ease-in;
     transition: background-color 0.2s ease-in;
 }
 
@@ -202,13 +141,8 @@ h2 {
     background-color: #D8D8D2;
     cursor: pointer;
     -webkit-transition: background-color 0.2s ease-in;
+    -moz-transition: background-color 0.2s ease-in;
     transition: background-color 0.2s ease-in;
-}
-
-.tweet a:hover {
-    color: white;
-    -webkit-transition: color 0.2s ease-in;
-    transition: color 0.2s ease-in;
 }
 
 #fetching_tweets {
@@ -236,4 +170,8 @@ h2 {
 .project_name {
     display: block;
     font-weight: bold;
+}
+
+a, a:hover {
+  color: #820700;
 }

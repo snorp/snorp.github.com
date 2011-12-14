@@ -15,9 +15,9 @@ function linkifyTweet(text) {
 function showTweets(items) {
     if (!items)
         return;
-        
+
     $("#tweet_container").html("<ul></ul>");
-    
+
     $.each(items, function(i,item) {
         var tweet = document.createElement('li');
         $(tweet).html(linkifyTweet(item.text));
@@ -25,7 +25,7 @@ function showTweets(items) {
         $(tweet).data('tweet-id', item.id_str);
         $("#tweet_container ul").append(tweet);
     });
-    
+
     $(".tweet").click(function(event) {
         var tweet_id = $(event.target).data('tweet-id');
 
@@ -50,11 +50,11 @@ function maybeRefreshTweets() {
         refreshTweets();
         return;
     }
-    
-    var tweets = JSON.parse(tweetJson);    
+
+    var tweets = JSON.parse(tweetJson);
     var now = new Date();
     var last_fetched = new Date(tweets.last_fetched);
-        
+
     if ((now - last_fetched) > _FIVE_MINUTES) {
         refreshTweets();
     } else {
@@ -71,21 +71,6 @@ function connectEvents() {
         window.location = $(this).attr('action') + "?q=site:snorp.net+" + $("#searchbox").val();
         return false;
     });
-    
-    $("#header_buttons a").hover(function() {
-        $(this).parent().addClass('active');
-    }, function() {
-        $(this).parent().removeClass('active');
-    });
-    /*
-    $("#header_buttons li").click(function(event) {
-        var href = event.target.getAttribute('data-href');
-        console.log("Got header click for: " + href);
-        if (href) {
-            window.location = href;
-        }
-    });
-    */
 }
 
 // Load jQuery
