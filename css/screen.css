@@ -175,3 +175,7 @@ body {
 a, a:hover {
   color: #820700;
 }
+
+pre > code {
+    background-color: transparent;
+}
