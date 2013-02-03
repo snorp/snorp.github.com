@@ -129,27 +129,6 @@ body {
     padding-right: 12px;
 }
 
-.tweet {
-    padding: 6px;
-    border-bottom: 1px solid #D8D8D2;
-    -webkit-transition: background-color 0.2s ease-in;
-    -moz-transition: background-color 0.2s ease-in;
-    transition: background-color 0.2s ease-in;
-}
-
-.tweet:hover {
-    background-color: #D8D8D2;
-    cursor: pointer;
-    -webkit-transition: background-color 0.2s ease-in;
-    -moz-transition: background-color 0.2s ease-in;
-    transition: background-color 0.2s ease-in;
-}
-
-#fetching_tweets {
-    display: block;
-    padding: 6px;
-}
-
 .message {
     font-style: italic;
 }

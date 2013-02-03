@@ -19,7 +19,6 @@ nav:
     <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen">
 
     <script src="http://www.google.com/jsapi"></script>
-    <script src="/js/base.js"></script>
     <script type="text/javascript">
 
       var _gaq = _gaq || [];
@@ -63,10 +62,8 @@ nav:
     </div>
 
     <div id="sidebar">
-        <h4><span>recent</span> tweets</h4>
-        <div id="tweet_container">
-            <span id="fetching_tweets" class="message">Fetching tweets...</span>
-        </div>
+        <a class="twitter-timeline" data-dnt=true href="https://twitter.com/snorp" data-widget-id="298168584495042563">Tweets by @snorp</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
         <a class="nohighlight" href="/blog/atom.xml"><img id="subscribe_button" src="/images/feed.png" alt="Subscribe to feed" /></a><br/>
         <form id="searchform" action="http://google.com/search">
