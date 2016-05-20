@@ -12,6 +12,7 @@ nav:
     <link href="/blog/atom.xml" rel="alternate" title="snorp.net" type="application/atom+xml"/>
 
     <meta name="viewport" content="width=device-width" />
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -39,21 +40,7 @@ nav:
         <div id="header_content">
             <a href="/index.html">snorp.net</a> <span id="header_subtext">home of <a href="mailto:snorp@snorp.net">James Willcox</a></span>
         </div>
-        
-        <ul id="header_tabs" class="tabs">
-            {% for nav in page.nav %}
-            {% if page.url == nav.url %}
-            <li class="active">
-            {% else %}
-            <li>
-            {% endif %}
-                <a href="{{nav.url}}">{{nav.name}}</a>
-            </li>
-            {% endfor %}
-        </ul>
-
     </div>
-    <div id="header_spacer"></div>
 
     <div id="content">
 
@@ -81,7 +68,11 @@ nav:
         </ul>
     </div>
     <div id="footer">
-        Copyright 2003-2014 James Willcox. <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Some rights reserved</a>
+        <div>Copyright 2003-2016 James Willcox. <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Some rights reserved</a></div>
+
+        <a class="nohighlight" href="http://twitter.com/snorp"><img src="/images/twitter_icon.png" title="Twitter stream"></a>
+        <a class="nohighlight" href="http://www.linkedin.com/in/snorp"><img src="/images/linkedin_icon.png" title="LinkedIn profile"></a>
+
     </div>
 </div>
 </body>
