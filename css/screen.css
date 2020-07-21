@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: white;
-    font-family: Helvetica, 'Droid Sans', Arial, sans-serif;
+    font-family: sans-serif;
     font-size: 14px;
     color: #303030;
 }
@@ -70,35 +70,6 @@ body {
 #content-header h1 {
     padding: 0px;
     margin: 0px;
-}
-
-#sidebar {
-    display: none;
-    margin-bottom: 24px;
-    padding-left: 12px;
-    padding-right: 12px;
-    width: 174px;
-    float: right;
-    border-left: 1px solid #D8D8D2;
-}
-
-#sidebar ul {
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-    margin-bottom: 24px;
-}
-
-#sidebar h4 {
-    margin: 0;
-    /* color: #820700; */
-    font-size: 16px;
-    font-weight: normal;
-    text-transform: lowercase;
-}
-
-#sidebar h4 > span {
-    font-weight: bold;
 }
 
 .post_title {

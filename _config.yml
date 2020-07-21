@@ -1,2 +1,4 @@
+plugins: [jekyll-paginate]
 highlighter: true
 paginate: 5
+

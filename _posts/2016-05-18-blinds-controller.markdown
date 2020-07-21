@@ -59,7 +59,7 @@ I'm sure a real EE will look at this and think "pfft, amateur!". And that's fine
 ### Bill of Materials
 
 <table>
-	<tr><td><a href="http://www.ebay.com/itm/Stepper-Motor-ULN2003-5-Line-4-Phase-5V-12V-28BYJ-48-Drive-Test-Module-Board-/291527657122?hash=item43e06706a2:g:3KAAAOSwHnFVuvJm">28BYJ-48-12V<a/></td><td>$2.08</td></tr>
+	<tr><td><a href="http://www.ebay.com/itm/Stepper-Motor-ULN2003-5-Line-4-Phase-5V-12V-28BYJ-48-Drive-Test-Module-Board-/291527657122?hash=item43e06706a2:g:3KAAAOSwHnFVuvJm">28BYJ-48-12V</a></td><td>$2.08</td></tr>
 	<tr><td><a href="http://www.digikey.com/product-detail/en/on-shore-technology-inc/ED16DT/ED3046-5-ND/4147596">DIP socket</a></td><td>$0.19</td></tr>
 	<tr><td><a href="http://www.ebay.com/itm/21Size-D19L25-Flexible-Shaft-Coupling-CNC-Stepper-Motor-Coupler-Connector-4-10mm-/381412205587?var=&hash=item58cdf06413:m:matJKF7ONfwQKgTUkCL-55A">Motor Coupling, 5mm x 8mm</a></td><td>$1.26</td></tr>
 	<tr><td><a href="http://www.digikey.com/product-detail/en/rubycon/35ZLH100MEFC6.3X11/1189-1300-ND/3134256">Electrolytic Capacitor, 100µF</a></td><td>$0.30</td></tr>

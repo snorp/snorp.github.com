@@ -1,9 +1,3 @@
----
-nav:
-    - { id: projects_nav, name: Projects, url: /projects.html }
-    - { id: contact_nav, name: Contact, url: /contact.html }
-    - { id: blog_nav, name: Blog, url: /index.html }
----
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,25 +8,8 @@ nav:
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 
-    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/pygments.css">
     <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen">
-
-    <script src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-21890182-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-    </script>
 </head>
 <body>
     <div id="main">
@@ -47,32 +24,11 @@ nav:
     {{content}}
 
     </div>
-
-    <div id="sidebar">
-        <a class="twitter-timeline" data-dnt=true href="https://twitter.com/snorp" data-widget-id="298168584495042563">Tweets by @snorp</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-        <a class="nohighlight" href="/blog/atom.xml"><img id="subscribe_button" src="/images/feed.png" alt="Subscribe to feed" /></a><br/>
-        <form id="searchform" action="http://google.com/search">
-            <input id="searchbox" type="text" name="q" value="Search">
-        </form>
-        <br/>
-    	<ul class="links">
-            <li><a href="http://flickr.com/photos/snorp" target="_blank">Flickr</a></li>
-            <li><a href="http://facebook.com/snorp" target="_blank">Facebook</a></li>
-            <li><a href="http://www.linkedin.com/in/snorp" target="_blank">LinkedIn</a></li>
-            <li><a href="http://mozilla.org" target="_blank">Mozilla</a></li>
-            <li><a href="http://litl.com" target="_blank">litl</a></li>
-            <li><a href="http://novell.com" target="_blank">Novell</a></li>
-            <li><a href="http://gnome.org" target="_blank">GNOME</a></li>
-        </ul>
-    </div>
     <div id="footer">
-        <div>Copyright 2003-2016 James Willcox. <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Some rights reserved</a></div>
+        <div>Copyright 2003-2020 James Willcox. <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Some rights reserved</a></div>
 
         <a class="nohighlight" href="http://twitter.com/snorp"><img src="/images/twitter_icon.png" title="Twitter stream"></a>
         <a class="nohighlight" href="http://www.linkedin.com/in/snorp"><img src="/images/linkedin_icon.png" title="LinkedIn profile"></a>
-
     </div>
 </div>
 </body>
